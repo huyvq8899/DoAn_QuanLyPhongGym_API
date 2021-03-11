@@ -13,6 +13,8 @@ namespace Services.AutoMapper
             CreateMap<FunctionViewModel, Function>();
             CreateMap<Function_UserViewModel, Function_User>();
             CreateMap<CustomerViewModel,Customer>();
+            CreateMap<CardViewModel, Card>();
+            CreateMap<CardTypeViewModel, CardType>();
         }
     }
 }

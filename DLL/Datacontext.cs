@@ -29,7 +29,7 @@ namespace DLL
         public DbSet<Function_User> Function_Roles { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Card> Cards { get; set; }
-        public DbSet<CardType> CardTypies { get; set; }
+        public DbSet<CardType> CardTypes { get; set; }
         public DbSet<Equipment> Equipments { get; set; }
         public DbSet<Facility> Facilities { get; set; }
         public DbSet<Service> Services { get; set; }
