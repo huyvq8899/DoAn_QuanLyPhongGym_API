@@ -6,6 +6,7 @@ namespace DLL.Entity
 {
     public class Card : AuditableEntity
     {
+        public string Id { get; set; }
         public string CardCode { get; set; }
         public String CardTypeId { set; get; }
         public String CustomerId { set; get; }

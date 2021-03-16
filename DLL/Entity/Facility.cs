@@ -5,7 +5,7 @@ namespace DLL.Entity
 {
     public class Facility : AuditableEntity
     {
-        public Facility() : base() { }
+        public string Id { get; set; }
         public string FacilityName { get; set; }
         public string Address { get; set; }
         public List<Card> Cards { get; set; }

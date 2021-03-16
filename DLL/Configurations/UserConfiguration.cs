@@ -9,7 +9,7 @@ namespace DLL.Configurations
     {
         public override void Configure(EntityTypeBuilder<User> entity)
         {
-            entity.HasKey(c => new { c.Id });
+            entity.HasKey(c => new { c.UserId });
 
             entity.HasOne<Role>(u => u.Role)
                .WithMany(s => s.Users)
