@@ -9,6 +9,6 @@ namespace Services.ViewModels
         public string Name { set; get; }
         public int Amount { set; get; }
         public string Description { set; get; }
-        public String UserId { set; get; }
+        public string UserId { set; get; }
     }
 }

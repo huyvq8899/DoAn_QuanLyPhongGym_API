@@ -15,6 +15,7 @@ namespace Services.AutoMapper
             CreateMap<CustomerViewModel,Customer>();
             CreateMap<CardViewModel, Card>();
             CreateMap<CardTypeViewModel, CardType>();
+            CreateMap<EquipmentViewModel, Equipment>();
         }
     }
 }
