@@ -17,5 +17,7 @@ namespace DLL.Entity
         public decimal? Height { get; set; }
         public decimal? Weight { get; set; }
         public string HealthStatus { get; set; }
+        public DateTime ToDate { set; get; }
+        public DateTime FromDate { get; set; }
     }
 }

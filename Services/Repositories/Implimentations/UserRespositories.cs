@@ -1201,9 +1201,8 @@ namespace Services.Repositories.Implimentations
                              select new CustomerViewModel
                              {
                                  Id = dt.Id,
-                                 CreatedBy = dt.CreatedBy,
                                  CreatedDate = dt.CreatedDate,
-                                 NguoiThem = ur.FullName
+                                 CreatedBy = ur.FullName
 
                              }).ToList();
                 /*                if (!string.IsNullOrEmpty(model.UserId))
@@ -1212,7 +1211,7 @@ namespace Services.Repositories.Implimentations
                                 }*/
 
                 var querytg = from b in query
-                              group b by b.NguoiThem.ToString() into g
+                              group b by b.CreatedBy.ToString() into g
                               select new BaoCaoThemKhachHangByNhanVienTheoThangParam
                               {
                                   FullName = g.Key,
@@ -1240,9 +1239,8 @@ namespace Services.Repositories.Implimentations
                              select new CustomerViewModel
                              {
                                  Id = dt.Id,
-                                 CreatedBy = dt.CreatedBy,
+                                 CreatedBy = ur.FullName,
                                  CreatedDate = dt.CreatedDate,
-                                 NguoiThem = ur.FullName
 
                              }).ToList();
                 /*if (!string.IsNullOrEmpty(model.UserId))
@@ -1251,7 +1249,7 @@ namespace Services.Repositories.Implimentations
                 }*/
 
                 var querytg = from b in query
-                              group b by b.NguoiThem.ToString() into g
+                              group b by b.CreatedBy.ToString() into g
                               select new BaoCaoThemKhachHangByNhanVienTheoThangParam
                               {
                                   FullName = g.Key,
