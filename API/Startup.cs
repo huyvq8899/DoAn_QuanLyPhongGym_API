@@ -95,6 +95,7 @@ namespace API
             services.AddScoped<ICardTypeRespositories, CardTypeRespositories>();
             services.AddScoped<IEquipmentRespositories, EquipmentRespositories>();
             services.AddScoped<IFacilityRespositories, FacilityRespositories>();
+            services.AddScoped<IServiceRespositories, ServiceRespositories>();
             // bỏ dấu #
             services.AddSpaStaticFiles(configuration =>
             {
