@@ -14,8 +14,8 @@ namespace DLL.Entity
         public String FacilityId { get; set; }
         public String ServiceId { get; set; }
         public String FacilityName { get; set; }
-        public decimal Price { set; get; }
-        public int NumOfDay { set; get; }
+        public DateTime? ToDate{ set; get; }
+        public DateTime? FromDate { get; set; }
         public string Note { set; get; }
         public CardType CardType { get; set; }
         public Facility Facility { get; set; }
