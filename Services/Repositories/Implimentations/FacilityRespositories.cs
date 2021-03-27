@@ -44,7 +44,12 @@ namespace Services.Repositories.Implimentations
                         {
                             Id = fc.Id,
                             FacilityName = fc.FacilityName,
+                            TaxCode = fc.TaxCode,
                             Address = fc.Address,
+                            NumberPhone = fc.NumberPhone,
+                            Email = fc.Email,
+                            Fax = fc.Fax,
+                            EstablishedDay = fc.EstablishedDay,
                         };
             return await query.OrderBy(x => x.FacilityName).ToListAsync();
         }
@@ -59,6 +64,11 @@ namespace Services.Repositories.Implimentations
             model.Id = Guid.NewGuid().ToString();
             model.FacilityName = model.FacilityName;
             model.Address = model.Address;
+            model.TaxCode = model.TaxCode;
+            model.Email = model.Email;
+            model.Fax = model.Fax;
+            model.NumberPhone = model.NumberPhone;
+            model.EstablishedDay = model.EstablishedDay;
             model.CreatedDate = DateTime.Now;
             model.CreatedBy = model.CreatedBy;
             var entity = mp.Map<Facility>(model);
@@ -73,6 +83,11 @@ namespace Services.Repositories.Implimentations
             var fc = await db.Facilities.AsNoTracking().FirstOrDefaultAsync(x => x.Id == model.Id);
             fc.FacilityName = model.FacilityName;
             fc.Address = model.Address;
+            fc.TaxCode = model.TaxCode;
+            fc.Fax = model.Fax;
+            fc.EstablishedDay = model.EstablishedDay;
+            fc.NumberPhone = model.NumberPhone;
+            fc.Email = model.Email;
             model.ModifiedDate = DateTime.Now;
             model.ModifiedBy = model.CreatedBy;
             db.Facilities.Update(fc);
