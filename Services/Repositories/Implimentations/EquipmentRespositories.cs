@@ -41,13 +41,15 @@ namespace Services.Repositories.Implimentations
         public async Task<List<EquipmentViewModel>> GetAll()
         {
             var query = from eq in db.Equipments
+                        join ur in db.Users on eq.CreatedBy  equals ur.UserId
                         select new EquipmentViewModel
                         {
                             Id = eq.Id,
                             Name = eq.Name,
                             Amount = eq.Amount,
                             Description = eq.Description,
-                            UserId = eq.UserId,
+                            UserId = ur.FullName,
+                            CreatedDate = eq.CreatedDate,
                         };
             return await query.OrderBy(x => x.Name).ToListAsync();
         }
@@ -76,11 +78,10 @@ namespace Services.Repositories.Implimentations
         {
             var eq = await db.Equipments.AsNoTracking().FirstOrDefaultAsync(x => x.Id == model.Id);
             eq.Name = model.Name.ToTrim();
-            eq.Amount = model.Amount;
-            eq.UserId = model.UserId;
             eq.Description = model.Description;
-            model.ModifiedDate = DateTime.Now;
-            model.ModifiedBy = model.CreatedBy;
+            eq.Amount = model.Amount;
+            eq.ModifiedDate = DateTime.Now;
+            eq.ModifiedBy = model.CreatedBy;
             db.Equipments.Update(eq);
             var rs = await db.SaveChangesAsync();
             return rs; // 1 thanh cong, 0 that bai

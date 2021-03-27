@@ -26,6 +26,5 @@ namespace DLL.Entity
 
         public List<Function_User> Function_Users { get; set; }
         public List<Card> Cards { get; set; }
-        public List<Equipment> Equipments { get; set; }
     }
 }
