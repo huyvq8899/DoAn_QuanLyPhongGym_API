@@ -1,5 +1,6 @@
 ﻿using DLL.LogEntity;
 using System;
+using System.Collections.Generic;
 
 namespace DLL.Entity
 {
@@ -19,5 +20,6 @@ namespace DLL.Entity
         public string HealthStatus { get; set; }
         public DateTime ToDate { set; get; }
         public DateTime FromDate { get; set; }
+        public List<KhachHangLog> KhachHangLogs { get; set; }
     }
 }

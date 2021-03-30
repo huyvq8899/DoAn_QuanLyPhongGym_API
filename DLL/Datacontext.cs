@@ -33,6 +33,7 @@ namespace DLL
         public DbSet<Equipment> Equipments { get; set; }
         public DbSet<Facility> Facilities { get; set; }
         public DbSet<Service> Services { get; set; }
+        public DbSet<KhachHangLog> KhachHangLogs { get; set; }
 
 
         public virtual DbSet<RetrieveOrderRecord> RetrieveOrderRecords { get; set; }

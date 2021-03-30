@@ -16,7 +16,7 @@ namespace Services.Repositories.Interfaces
         Task<int> Update(int TN, CustomerViewModel model);
         Task<PagedList<CustomerViewModel>> GetAllPagingAsync(PagingParams pagingParams, string Id,string selectedId);
         Task<CustomerViewModel> GetById(string Id);
-       // Task<List<DoiTuongViewModel>> GetAllKH();
+        Task<List<KhachHangLogViewModel>> GetAllKH();
         Task<List<CustomerViewModel>> GetKHByUser(string Id);
         Task<bool> CheckTrungMa(string MaKH);
         Task<string> CreateMa();

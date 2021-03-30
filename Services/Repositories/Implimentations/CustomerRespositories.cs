@@ -75,55 +75,223 @@ namespace Services.Repositories.Implimentations
 
         public async Task<int> Update(int TN, CustomerViewModel model)
         {
+            var tmp = new KhachHangLogViewModel();
+            var ur = await db.Customers.AsNoTracking().FirstOrDefaultAsync(x => x.Id == model.Id);
+           /* if (ur.Id == model.Id)
+            {
+                tmp.CreatedBy = model.ModifiedBy;
+                if (ur.CustomerName != model.CustomerName)
+                {
+                    if (model.CustomerName == "" && ur.CustomerName == null)
+                    {
+
+                    }
+                    else
+                    {
+                        tmp.TenTruongThayDoi = "CustomerName";
+                        tmp.DienGiai = "Tên khách hàng";
+                        tmp.DuLieuCu = ur.CustomerName;
+                        tmp.DuLieuMoi = model.CustomerName;
+                        tmp.CustomerId = model.Id;
+                        tmp.CreatedDate = DateTime.Now;
+                        await GetLichSuKH(tmp);
+                    }
+                }
+                if (ur.Address != model.Address)
+                {
+                    if (model.Address == "" && ur.Address == null)
+                    {
+
+                    }
+                    else
+                    {
+                        tmp.TenTruongThayDoi = "Address";
+                        tmp.DienGiai = "Địa chỉ";
+                        tmp.DuLieuCu = ur.Address;
+                        tmp.DuLieuMoi = model.Address;
+                        tmp.CustomerId = model.Id;
+                        tmp.CreatedDate = DateTime.Now;
+                        await GetLichSuKH(tmp);
+                    }
+                }
+                if (ur.DoB != model.DoB)
+                {
+                    if (model.DoB.ToString() == "" && ur.DoB.ToString() == null)
+                    {
+
+                    }
+                    else
+                    {
+                        tmp.TenTruongThayDoi = "DoB";
+                        tmp.DienGiai = "Ngày sinh";
+                        tmp.DuLieuCu = Convert.ToString(ur.DoB);
+                        tmp.DuLieuMoi = Convert.ToString(ur.DoB);
+                        tmp.CustomerId = model.Id;
+                        tmp.CreatedDate = DateTime.Now;
+                        await GetLichSuKH(tmp);
+                    }
+                }
+                if (ur.Job != model.Job)
+                {
+                    if (model.Job.ToString() == "" && ur.Job.ToString() == null)
+                    {
+
+                    }
+                    else
+                    {
+
+                        tmp.TenTruongThayDoi = "Job";
+                        tmp.DienGiai = "Công việc hiện tại";
+                        tmp.DuLieuCu = Convert.ToString(ur.Job);
+                        tmp.DuLieuMoi = Convert.ToString(model.Job);
+                        tmp.CustomerId = model.Id;
+                        tmp.CreatedDate = DateTime.Now;
+                        await GetLichSuKH(tmp);
+                    }
+                }
+                if (ur.NumberPhone != model.NumberPhone)
+                {
+                    if (model.NumberPhone == "" && ur.NumberPhone == null)
+                    {
+
+                    }
+                    else
+                    {
+                        tmp.TenTruongThayDoi = "NumberPhone";
+                        tmp.DienGiai = "Số điện thoại";
+                        tmp.DuLieuCu = Convert.ToString(ur.NumberPhone);
+                        tmp.DuLieuMoi = model.NumberPhone;
+                        tmp.CustomerId = model.Id;
+                        tmp.CreatedDate = DateTime.Now;
+                        await GetLichSuKH(tmp);
+                    }
+                }
+                if (ur.Note != model.Note)
+                {
+                    if (model.Note == "" && ur.Note == null)
+                    {
+
+                    }
+                    else
+                    {
+                        tmp.TenTruongThayDoi = "Note";
+                        tmp.DienGiai = "Chú ý";
+                        tmp.DuLieuCu = ur.Note;
+                        tmp.DuLieuMoi = model.Note;
+                        tmp.CustomerId = model.Id;
+                        tmp.CreatedDate = DateTime.Now;
+                        await GetLichSuKH(tmp);
+                    }
+                }
+                if (ur.Email != model.Email)
+                {
+                    if (model.Email == "" && ur.Email == null)
+                    {
+
+                    }
+                    else
+                    {
+                        tmp.TenTruongThayDoi = "Email";
+                        tmp.DienGiai = "Email";
+                        tmp.DuLieuCu = ur.Email;
+                        tmp.DuLieuMoi = model.Email;
+                        tmp.CustomerId = model.Id;
+                        tmp.CreatedDate = DateTime.Now;
+                        await GetLichSuKH(tmp);
+                    }
+                }
+                if (ur.Height != model.Height)
+                {
+                    if (model.Height.ToString() == "" && ur.Height.ToString() == null)
+                    {
+
+                    }
+                    else
+                    {
+                        tmp.TenTruongThayDoi = "Height";
+                        tmp.DienGiai = "Chiều cao";
+                        tmp.DuLieuCu = ur.Height.ToString();
+                        tmp.DuLieuMoi = model.Height.ToString();
+                        tmp.CustomerId = model.Id;
+                        tmp.CreatedDate = DateTime.Now;
+                        await GetLichSuKH(tmp);
+                    }
+                }
+                if (ur.Weight != model.Weight)
+                {
+                    if (model.Weight.ToString() == "" && ur.Weight.ToString() == null)
+                    {
+
+                    }
+                    else
+                    {
+                        tmp.TenTruongThayDoi = "Weight";
+                        tmp.DienGiai = "Cân nặng";
+                        tmp.DuLieuCu = ur.Weight.ToString();
+                        tmp.DuLieuMoi = model.Weight.ToString();
+                        tmp.CustomerId = model.Id;
+                        tmp.CreatedDate = DateTime.Now;
+                        await GetLichSuKH(tmp);
+                    }
+                }
+                if (ur.HealthStatus != model.HealthStatus)
+                {
+                    if (model.HealthStatus == "" && ur.HealthStatus == null)
+                    {
+
+                    }
+                    else
+                    {
+                        tmp.TenTruongThayDoi = "HealthStatus";
+                        tmp.DienGiai = "Tình trạng sức khỏe";
+                        tmp.DuLieuCu = ur.HealthStatus;
+                        tmp.DuLieuMoi = model.HealthStatus;
+                        tmp.CustomerId = model.Id;
+                        tmp.CreatedDate = DateTime.Now;
+                        await GetLichSuKH(tmp);
+                    }
+                }
+                if (ur.CustomerCode != model.CustomerCode)
+                {
+                    if (model.CustomerCode == "" && ur.CustomerCode == null)
+                    {
+
+                    }
+                    else
+                    {
+                        tmp.TenTruongThayDoi = "CustomerCode";
+                        tmp.DienGiai = "Mã khách hàng";
+                        tmp.DuLieuCu = ur.CustomerCode;
+                        tmp.DuLieuMoi = model.CustomerCode;
+                        tmp.CustomerId = model.Id;
+                        tmp.CreatedDate = DateTime.Now;
+                        await GetLichSuKH(tmp);
+                    }
+                }
+            }*/
             try
             {
                 if (TN == 1)
                 {
-                    /* ur.CustomerName = model.CustomerName.Trim();
-                     ur.Address = model.Address.Trim();
-                     ur.MaSoThue = model.MaSoThue;
-                     ur.SanLuongHangThang = model.SanLuongHangThang;
-                     ur.PhuongAnNhapHang = model.PhuongAnNhapHang;
-                     ur.NhaCungCapHienTai = model.NhaCungCapHienTai;
-                     ur.GiaTrietKhau = model.GiaTrietKhau;
-                     ur.MongMuonKhachHang = model.MongMuonKhachHang;
-                     ur.CacVanDeCuaNhaCCCu = model.CacVanDeCuaNhaCCCu;
-                     ur.NguoiLienHe = model.NguoiLienHe.Trim();
-                     ur.ChucVu = model.ChucVu;
-                     ur.Note = model.Note;
-                     ur.DanhGiaChung = model.DanhGiaChung;
-                     ur.NumberPhone = model.NumberPhone.Trim();
-                     ur.LoaiKhachHang = model.LoaiKhachHang;
-                     ur.CustomerCode = model.CustomerCode.Trim();
-                     ur.TrangThaiKhachHang = model.TrangThaiKhachHang.Trim();
-                     ur.TenVung = model.TenVung ?? string.Empty;
-                     ur.VungId = model.VungId ?? string.Empty;
-                     ur.MaVung = model.MaVung ?? string.Empty;
-                     ur.MaNganhNghe = model.MaNganhNghe ?? string.Empty;
-                     ur.NganhNgheId = model.NganhNgheId ?? string.Empty;
-                     ur.TenNganhNghe = model.TenNganhNghe ?? string.Empty;
-                     ur.NguoiDaiDienPhapLuat = model.NguoiDaiDienPhapLuat;
-                     ur.NumberPhoneNguoiDaiDien = model.NumberPhoneNguoiDaiDien;
-                     ur.KeToan = model.KeToan;
-                     ur.NumberPhoneKeToan = model.NumberPhoneKeToan;
-                     ur.CheckCIC = model.CheckCIC;
-                     ur.CongNo = model.CongNo;
-                     ur.BaoLanhThanhToan = model.BaoLanhThanhToan;
-                     ur.GiamDoc = model.GiamDoc;
-                     ur.AddressGiaoHang = model.AddressGiaoHang;
-                     ur.VanPhongGiaoDich = model.VanPhongGiaoDich;
-                     ur.DeXuatNhanVien = model.DeXuatNhanVien;
-                     ur.HanMuc = model.HanMuc;
-                     ur.ThoiHanNo = model.ThoiHanNo;
- */
+                    ur.CustomerCode = model.CustomerCode.Trim();
+                    ur.CustomerName = model.CustomerName;
+                    ur.Address = model.Address;
+                    ur.DoB = model.DoB;
+                    ur.Job = model.Job;
+                    ur.NumberPhone = model.NumberPhone;
+                    ur.Note = model.Note;
+                    ur.Email = model.Email;
+                    ur.Height = model.Height;
+                    ur.Weight = model.Weight;
+                    ur.HealthStatus = model.HealthStatus;
                 }
                 //else
                 //{
-                //    ur.CustomerName = model.CustomerName.Trim();
-                //    ur.Address = model.Address.Trim();
+                //    ur.TenKhachHang = model.TenKhachHang.Trim();
+                //    ur.DiaChi = model.DiaChi.Trim();
 
                 //    ur.NguoiLienHe = model.NguoiLienHe;
-                //    ur.CustomerCode = model.CustomerCode.Trim();
+                //    ur.MaKhachHang = model.MaKhachHang.Trim();
                 //    ur.MaSoThue = model.MaSoThue; 
                 //    ur.Email = model.Email;
                 //    ur.GiamDoc = model.GiamDoc;
@@ -137,7 +305,7 @@ namespace Services.Repositories.Implimentations
                 //    ur.TenNganhNghe = model.TenNganhNghe ?? string.Empty;
 
                 //}
-                // db.Customers.Update(ur);
+                db.Customers.Update(ur);
                 var rs = await db.SaveChangesAsync();
                 return rs; // 1 thanh cong, 0 that bai
 
@@ -149,13 +317,13 @@ namespace Services.Repositories.Implimentations
             }
 
         }
-        /*  public async Task<int> GetLichSuKH(KhachHangLogViewModels model)
+          public async Task<int> GetLichSuKH(KhachHangLogViewModel model)
           {
               model.Id = Guid.NewGuid().ToString();
               model.TenTruongThayDoi = model.TenTruongThayDoi;
               model.DuLieuCu = model.DuLieuCu;
               model.DuLieuMoi = model.DuLieuMoi;
-              model.KhachHangId = model.KhachHangId;
+              model.CustomerId = model.CustomerId;
               model.DienGiai = model.DienGiai;
               model.CreatedDate = DateTime.Now;
               var entity = mp.Map<KhachHangLog>(model);
@@ -164,12 +332,12 @@ namespace Services.Repositories.Implimentations
               // thanh cong 1, o loi
               return rs;
           }
-          public async Task<List<KhachHangLogViewModels>> GetAllLiSuKH()
+          public async Task<List<KhachHangLogViewModel>> GetAllLiSuKH()
           {
               var query = from dt in db.KhachHangLogs
-                          join kh in db.Customers on dt.KhachHangId equals kh.Id
+                          join kh in db.Customers on dt.CustomerId equals kh.Id
                           orderby dt.CreatedDate descending
-                          select new KhachHangLogViewModels
+                          select new KhachHangLogViewModel
                           {
                               Id = dt.Id,
                               CustomerCode = kh.CustomerCode,
@@ -178,10 +346,10 @@ namespace Services.Repositories.Implimentations
                               DuLieuMoi=dt.DuLieuMoi,
                               DuLieuCu=dt.DuLieuCu,
                               CreatedDate=dt.CreatedDate,
-                              KhachHangId=dt.KhachHangId
+                              CustomerId=dt.CustomerId
                           };
               return await query.ToListAsync();
-          }*/
+          }
         public async Task<List<CustomerViewModel>> GetAllKH()
         {
             var query = from dt in db.Customers
@@ -998,6 +1166,11 @@ namespace Services.Repositories.Implimentations
             }
 
 
+        }
+
+        Task<List<KhachHangLogViewModel>> ICustomerRespositories.GetAllKH()
+        {
+            throw new NotImplementedException();
         }
     }
 }

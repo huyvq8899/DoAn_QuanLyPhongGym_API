@@ -1,6 +1,5 @@
 ﻿using DLL.LogEntity;
 using System;
-using System.Collections.Generic;
 
 namespace DLL.Entity
 {
