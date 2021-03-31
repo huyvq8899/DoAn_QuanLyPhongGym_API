@@ -404,7 +404,8 @@ namespace Services.Repositories.Implimentations
                                     Email = dt.Email.ToTrim(),
                                     Status = true,
                                     CreatedDate = dt.CreatedDate,
-                                    CreatedBy = dt.CreatedBy
+                                    CreatedBy = dt.CreatedBy,
+                                    NguoiThem = us.FullName
                                 };
                     }
                     else
@@ -429,7 +430,8 @@ namespace Services.Repositories.Implimentations
                                     Email = dt.Email.ToTrim(),
                                     Status = true,
                                     CreatedDate = dt.CreatedDate,
-                                    CreatedBy = dt.CreatedBy
+                                    CreatedBy = dt.CreatedBy,
+                                    NguoiThem = us.FullName
                                 };
                     }
 
@@ -463,7 +465,8 @@ namespace Services.Repositories.Implimentations
                                         Email = dt.Email.ToTrim(),
                                         Status = true,
                                         CreatedDate = dt.CreatedDate,
-                                        CreatedBy = dt.CreatedBy
+                                        CreatedBy = dt.CreatedBy,
+                                        NguoiThem = us.FullName
                                     };
                         }
                         else
@@ -488,7 +491,8 @@ namespace Services.Repositories.Implimentations
                                         Email = dt.Email.ToTrim(),
                                         Status = true,
                                         CreatedDate = dt.CreatedDate,
-                                        CreatedBy = dt.CreatedBy
+                                        CreatedBy = dt.CreatedBy,
+                                        NguoiThem = us.FullName
                                     };
                         }
                     }
@@ -521,7 +525,8 @@ namespace Services.Repositories.Implimentations
                                             Email = dt.Email.ToTrim(),
                                             Status = true,
                                             CreatedDate = dt.CreatedDate,
-                                            CreatedBy = dt.CreatedBy
+                                            CreatedBy = dt.CreatedBy,
+                                            NguoiThem = us.FullName
                                         };
                             }
                             else
@@ -546,7 +551,8 @@ namespace Services.Repositories.Implimentations
                                             Email = dt.Email.ToTrim(),
                                             Status = true,
                                             CreatedDate = dt.CreatedDate,
-                                            CreatedBy = dt.CreatedBy
+                                            CreatedBy = dt.CreatedBy,
+                                            NguoiThem = us.FullName
                                         };
                             }
                         }
@@ -573,6 +579,7 @@ namespace Services.Repositories.Implimentations
                                         Status = true,
                                         CreatedDate = dt.CreatedDate,
                                         CreatedBy = dt.CreatedBy,
+                                        NguoiThem = us.FullName,
                                         DoBName = dt.DoB.HasValue ? dt.DoB.Value.ToString("dd/MM/yyyy") : "",
                                         CreateDateName = dt.CreatedDate.HasValue ? dt.CreatedDate.Value.ToString("dd/MM/yyyy") : "",
                                     };
@@ -697,6 +704,14 @@ namespace Services.Repositories.Implimentations
                         query = query.OrderBy(x => x.CreatedBy);
                     }
                     if (pagingParams.SortKey == "CreatedBy" && pagingParams.SortValue == "descend")
+                    {
+                        query = query.OrderByDescending(x => x.CreatedBy);
+                    }
+                    if (pagingParams.SortKey == "NguuoiThem" && pagingParams.SortValue == "ascend")
+                    {
+                        query = query.OrderBy(x => x.CreatedBy);
+                    }
+                    if (pagingParams.SortKey == "NguuoiThem" && pagingParams.SortValue == "descend")
                     {
                         query = query.OrderByDescending(x => x.CreatedBy);
                     }

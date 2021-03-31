@@ -15,7 +15,7 @@ namespace DLL.Entity
         public String FacilityName { get; set; }
         public DateTime? ToDate{ set; get; }
         public DateTime? FromDate { get; set; }
-        public string Note { set; get; }
+       // public string Note { set; get; }
         public CardType CardType { get; set; }
         public Facility Facility { get; set; }
         public Service Service { get; set; }

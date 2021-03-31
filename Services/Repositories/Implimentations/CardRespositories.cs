@@ -99,7 +99,7 @@ namespace Services.Repositories.Implimentations
             eq.FacilityId = model.FacilityId;
             eq.ServiceId = model.ServiceId;
             eq.UserId = model.UserId;
-            eq.Note = model.Note;
+           // eq.Note = model.Note;
             eq.ToDate = model.ToDate;
             eq.FromDate = model.FromDate;
             model.ModifiedDate = DateTime.Now;
