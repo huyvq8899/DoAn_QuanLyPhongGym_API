@@ -70,7 +70,7 @@ namespace Services.Repositories.Implimentations
             throw new NotImplementedException();
         }
 
-        public async Task<int> Insert(CardViewModel model)
+        public async Task<int> Insert(int TN, CardViewModel model)
         {
             model.Id = Guid.NewGuid().ToString();
             model.CardCode = model.CardCode;
@@ -90,7 +90,7 @@ namespace Services.Repositories.Implimentations
             return rs;
         }
 
-        public async Task<int> Update(CardViewModel model)
+        public async Task<int> Update(int TN, CardViewModel model)
         {
             var eq = await db.Cards.AsNoTracking().FirstOrDefaultAsync(x => x.Id == model.Id);
             eq.CardCode = model.CardCode.ToTrim();
@@ -99,7 +99,7 @@ namespace Services.Repositories.Implimentations
             eq.FacilityId = model.FacilityId;
             eq.ServiceId = model.ServiceId;
             eq.UserId = model.UserId;
-           // eq.Note = model.Note;
+            // eq.Note = model.Note;
             eq.ToDate = model.ToDate;
             eq.FromDate = model.FromDate;
             model.ModifiedDate = DateTime.Now;
@@ -110,7 +110,7 @@ namespace Services.Repositories.Implimentations
         }
         public async Task<PagedList<CardViewModel>> GetAllPagingAsync(PagingParams pagingParams, string Id, string selectedId)
         {
-            IQueryable<CardViewModel> query = from dt in db.Customers
+            IQueryable<CardViewModel> query = from dt in db.Cards
                                               select new CardViewModel();
             var tg = new User();
             tg = await db.Users.FindAsync(Id);
@@ -121,6 +121,7 @@ namespace Services.Repositories.Implimentations
                     if (selectedId == null || selectedId == "")
                     {
                         query = from cr in db.Cards
+                                join us in db.Users on cr.CreatedBy equals us.UserId
                                 join ct in db.Customers on cr.CustomerId equals ct.Id
                                 join fc in db.Facilities on cr.FacilityId equals fc.Id
                                 join cp in db.CardTypes on cr.CardTypeId equals cp.Id
@@ -141,6 +142,8 @@ namespace Services.Repositories.Implimentations
                                     FromDate = cr.FromDate,
                                     ToDateName = cr.ToDate.HasValue ? cr.ToDate.Value.ToString("dd/MM/yyyy") : "",
                                     FromDateName = cr.FromDate.HasValue ? cr.FromDate.Value.ToString("dd/MM/yyyy") : "",
+                                    NguoiThem = us.FullName,
+                                    CreateDateName = cr.CreatedDate.HasValue ? cr.CreatedDate.Value.ToString("dd/MM/yyyy") : ""
                                 };
                     }
                     else
@@ -314,12 +317,13 @@ namespace Services.Repositories.Implimentations
 
                     }
                 }
-                if (!string.IsNullOrEmpty(pagingParams.fromDate) && !string.IsNullOrEmpty(pagingParams.toDate))
+                //het han the tap k hien
+/*                if (!string.IsNullOrEmpty(pagingParams.fromDate) && !string.IsNullOrEmpty(pagingParams.toDate))
                 {
                     DateTime fromDate = DateTime.Parse(pagingParams.fromDate);
                     DateTime toDate = DateTime.Parse(pagingParams.toDate);
                     query = query.Where(x => (x.CreatedDate) >= fromDate.Date && (x.CreatedDate) <= toDate.Date.AddDays(1));
-                }
+                }*/
                 if (!string.IsNullOrEmpty(pagingParams.SortKey))
                 {
                     if (pagingParams.SortKey == "cardCode" && pagingParams.SortValue == "ascend")
@@ -386,14 +390,14 @@ namespace Services.Repositories.Implimentations
                     {
                         query = query.OrderByDescending(x => x.ServiceName);
                     }
-                    if (pagingParams.SortKey == "price" && pagingParams.SortValue == "ascend")
+                    /*if (pagingParams.SortKey == "price" && pagingParams.SortValue == "ascend")
                     {
                         query = query.OrderBy(x => x.Price);
                     }
                     if (pagingParams.SortKey == "price" && pagingParams.SortValue == "descend")
                     {
                         query = query.OrderByDescending(x => x.Price);
-                    }
+                    }*/
                     if (pagingParams.SortKey == "toDateName" && pagingParams.SortValue == "ascend")
                     {
                         query = query.OrderBy(x => x.ToDateName);
@@ -575,93 +579,93 @@ namespace Services.Repositories.Implimentations
             if (!string.IsNullOrEmpty(pagingParams.SortKey))
             {
                 if (pagingParams.SortKey == "cardCode" && pagingParams.SortValue == "ascend")
-                    {
-                        query = query.OrderBy(x => x.CardCode);
-                    }
-                    if (pagingParams.SortKey == "cardCode" && pagingParams.SortValue == "descend")
-                    {
-                        query = query.OrderByDescending(x => x.CardCode);
-                    }
-                    if (pagingParams.SortKey == "customerCode" && pagingParams.SortValue == "ascend")
-                    {
-                        query = query.OrderBy(x => x.CustomerCode);
-                    }
-                    if (pagingParams.SortKey == "customerCode" && pagingParams.SortValue == "descend")
-                    {
-                        query = query.OrderByDescending(x => x.CustomerCode);
-                    }
-                    if (pagingParams.SortKey == "customerName" && pagingParams.SortValue == "ascend")
-                    {
-                        query = query.OrderBy(x => x.CustomerName);
-                    }
-                    if (pagingParams.SortKey == "customerName" && pagingParams.SortValue == "descend")
-                    {
-                        query = query.OrderByDescending(x => x.CustomerName);
-                    }
-                    if (pagingParams.SortKey == "address" && pagingParams.SortValue == "ascend")
-                    {
-                        query = query.OrderBy(x => x.Address);
-                    }
-                    if (pagingParams.SortKey == "address" && pagingParams.SortValue == "descend")
-                    {
-                        query = query.OrderByDescending(x => x.Address);
-                    }
-                    if (pagingParams.SortKey == "numberPhone" && pagingParams.SortValue == "ascend")
-                    {
-                        query = query.OrderBy(x => x.NumberPhone);
-                    }
-                    if (pagingParams.SortKey == "numberPhone" && pagingParams.SortValue == "descend")
-                    {
-                        query = query.OrderByDescending(x => x.NumberPhone);
-                    }
-                    if (pagingParams.SortKey == "nameType" && pagingParams.SortValue == "ascend")
-                    {
-                        query = query.OrderBy(x => x.NameType);
-                    }
-                    if (pagingParams.SortKey == "nameType" && pagingParams.SortValue == "descend")
-                    {
-                        query = query.OrderByDescending(x => x.NameType);
-                    }
-                    if (pagingParams.SortKey == "facilityName" && pagingParams.SortValue == "ascend")
-                    {
-                        query = query.OrderBy(x => x.FacilityName);
-                    }
-                    if (pagingParams.SortKey == "facilityName" && pagingParams.SortValue == "descend")
-                    {
-                        query = query.OrderByDescending(x => x.FacilityName);
-                    }
-                    if (pagingParams.SortKey == "serviceName" && pagingParams.SortValue == "ascend")
-                    {
-                        query = query.OrderBy(x => x.ServiceName);
-                    }
-                    if (pagingParams.SortKey == "serviceName" && pagingParams.SortValue == "descend")
-                    {
-                        query = query.OrderByDescending(x => x.ServiceName);
-                    }
-                    if (pagingParams.SortKey == "price" && pagingParams.SortValue == "ascend")
-                    {
-                        query = query.OrderBy(x => x.Price);
-                    }
-                    if (pagingParams.SortKey == "price" && pagingParams.SortValue == "descend")
-                    {
-                        query = query.OrderByDescending(x => x.Price);
-                    }
-                    if (pagingParams.SortKey == "toDateName" && pagingParams.SortValue == "ascend")
-                    {
-                        query = query.OrderBy(x => x.ToDateName);
-                    }
-                    if (pagingParams.SortKey == "toDateName" && pagingParams.SortValue == "descend")
-                    {
-                        query = query.OrderByDescending(x => x.ToDateName);
-                    }
-                    if (pagingParams.SortKey == "fromDateName" && pagingParams.SortValue == "ascend")
-                    {
-                        query = query.OrderBy(x => x.FromDateName);
-                    }
-                    if (pagingParams.SortKey == "fromDateName" && pagingParams.SortValue == "descend")
-                    {
-                        query = query.OrderByDescending(x => x.FromDateName);
-                    }
+                {
+                    query = query.OrderBy(x => x.CardCode);
+                }
+                if (pagingParams.SortKey == "cardCode" && pagingParams.SortValue == "descend")
+                {
+                    query = query.OrderByDescending(x => x.CardCode);
+                }
+                if (pagingParams.SortKey == "customerCode" && pagingParams.SortValue == "ascend")
+                {
+                    query = query.OrderBy(x => x.CustomerCode);
+                }
+                if (pagingParams.SortKey == "customerCode" && pagingParams.SortValue == "descend")
+                {
+                    query = query.OrderByDescending(x => x.CustomerCode);
+                }
+                if (pagingParams.SortKey == "customerName" && pagingParams.SortValue == "ascend")
+                {
+                    query = query.OrderBy(x => x.CustomerName);
+                }
+                if (pagingParams.SortKey == "customerName" && pagingParams.SortValue == "descend")
+                {
+                    query = query.OrderByDescending(x => x.CustomerName);
+                }
+                if (pagingParams.SortKey == "address" && pagingParams.SortValue == "ascend")
+                {
+                    query = query.OrderBy(x => x.Address);
+                }
+                if (pagingParams.SortKey == "address" && pagingParams.SortValue == "descend")
+                {
+                    query = query.OrderByDescending(x => x.Address);
+                }
+                if (pagingParams.SortKey == "numberPhone" && pagingParams.SortValue == "ascend")
+                {
+                    query = query.OrderBy(x => x.NumberPhone);
+                }
+                if (pagingParams.SortKey == "numberPhone" && pagingParams.SortValue == "descend")
+                {
+                    query = query.OrderByDescending(x => x.NumberPhone);
+                }
+                if (pagingParams.SortKey == "nameType" && pagingParams.SortValue == "ascend")
+                {
+                    query = query.OrderBy(x => x.NameType);
+                }
+                if (pagingParams.SortKey == "nameType" && pagingParams.SortValue == "descend")
+                {
+                    query = query.OrderByDescending(x => x.NameType);
+                }
+                if (pagingParams.SortKey == "facilityName" && pagingParams.SortValue == "ascend")
+                {
+                    query = query.OrderBy(x => x.FacilityName);
+                }
+                if (pagingParams.SortKey == "facilityName" && pagingParams.SortValue == "descend")
+                {
+                    query = query.OrderByDescending(x => x.FacilityName);
+                }
+                if (pagingParams.SortKey == "serviceName" && pagingParams.SortValue == "ascend")
+                {
+                    query = query.OrderBy(x => x.ServiceName);
+                }
+                if (pagingParams.SortKey == "serviceName" && pagingParams.SortValue == "descend")
+                {
+                    query = query.OrderByDescending(x => x.ServiceName);
+                }
+                if (pagingParams.SortKey == "price" && pagingParams.SortValue == "ascend")
+                {
+                    query = query.OrderBy(x => x.Price);
+                }
+                if (pagingParams.SortKey == "price" && pagingParams.SortValue == "descend")
+                {
+                    query = query.OrderByDescending(x => x.Price);
+                }
+                if (pagingParams.SortKey == "toDateName" && pagingParams.SortValue == "ascend")
+                {
+                    query = query.OrderBy(x => x.ToDateName);
+                }
+                if (pagingParams.SortKey == "toDateName" && pagingParams.SortValue == "descend")
+                {
+                    query = query.OrderByDescending(x => x.ToDateName);
+                }
+                if (pagingParams.SortKey == "fromDateName" && pagingParams.SortValue == "ascend")
+                {
+                    query = query.OrderBy(x => x.FromDateName);
+                }
+                if (pagingParams.SortKey == "fromDateName" && pagingParams.SortValue == "descend")
+                {
+                    query = query.OrderByDescending(x => x.FromDateName);
+                }
             }
 
             string _path_sample = Path.Combine(_hostingEnvironment.ContentRootPath, $"MyAssets/uploaded/sample/Bao_cao_khach_hang.xlsx");
@@ -743,5 +747,19 @@ namespace Services.Repositories.Implimentations
 
 
         }
+
+        public Task GetById(string id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<bool> CheckTrungMa(string CardCode)
+        {
+            var rs = await db.Cards.FirstOrDefaultAsync(x => x.CardCode.ToString().ToUpper().ToTrim() == (CardCode.ToString().ToUpper().ToTrim()));
+            if (rs != null) return true;
+            else return false;
+        }
+
     }
 }
+

@@ -31,5 +31,7 @@ namespace Services.ViewModels
         public decimal? Height { get; set; }
         public decimal? Weight { get; set; }
         public string HealthStatus { get; set; }
+        public string NguoiThem { get; set; }
+        public string CreateDateName { get; set; }
     }
 }

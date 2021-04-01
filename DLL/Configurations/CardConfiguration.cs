@@ -26,6 +26,10 @@ namespace DLL.Configurations
            .WithMany(s => s.Cards)
            .HasForeignKey(sc => sc.UserId)
            .OnDelete(DeleteBehavior.Restrict);
+            entity.HasOne<Customer>(u => u.Customer)
+         .WithMany(s => s.Cards)
+         .HasForeignKey(sc => sc.CustomerId)
+         .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

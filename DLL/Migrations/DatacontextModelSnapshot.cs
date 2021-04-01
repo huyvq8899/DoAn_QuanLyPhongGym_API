@@ -44,7 +44,7 @@ namespace DLL.Migrations
 
                     b.Property<DateTime?>("ModifiedDate");
 
-                    b.Property<string>("Note");
+                    b.Property<decimal?>("Price");
 
                     b.Property<string>("ServiceId");
 
@@ -57,6 +57,8 @@ namespace DLL.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CardTypeId");
+
+                    b.HasIndex("CustomerId");
 
                     b.HasIndex("FacilityId");
 
@@ -239,6 +241,40 @@ namespace DLL.Migrations
                     b.ToTable("Function_Roles");
                 });
 
+            modelBuilder.Entity("DLL.Entity.KhachHangLog", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("CreatedBy");
+
+                    b.Property<DateTime?>("CreatedDate");
+
+                    b.Property<string>("CustomerCode");
+
+                    b.Property<string>("CustomerId");
+
+                    b.Property<string>("DienGiai");
+
+                    b.Property<string>("DuLieuCu");
+
+                    b.Property<string>("DuLieuMoi");
+
+                    b.Property<string>("ModifiedBy");
+
+                    b.Property<DateTime?>("ModifiedDate");
+
+                    b.Property<bool?>("Status");
+
+                    b.Property<string>("TenTruongThayDoi");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CustomerId");
+
+                    b.ToTable("KhachHangLogs");
+                });
+
             modelBuilder.Entity("DLL.Entity.RetrieveOrderRecord", b =>
                 {
                     b.Property<int>("STT")
@@ -359,6 +395,11 @@ namespace DLL.Migrations
                         .HasForeignKey("CardTypeId")
                         .OnDelete(DeleteBehavior.Restrict);
 
+                    b.HasOne("DLL.Entity.Customer", "Customer")
+                        .WithMany("Cards")
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.HasOne("DLL.Entity.Facility", "Facility")
                         .WithMany("Cards")
                         .HasForeignKey("FacilityId")
@@ -386,6 +427,13 @@ namespace DLL.Migrations
                         .WithMany("Function_Users")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("DLL.Entity.KhachHangLog", b =>
+                {
+                    b.HasOne("DLL.Entity.Customer", "Customer")
+                        .WithMany("KhachHangLogs")
+                        .HasForeignKey("CustomerId");
                 });
 
             modelBuilder.Entity("DLL.Entity.User", b =>
