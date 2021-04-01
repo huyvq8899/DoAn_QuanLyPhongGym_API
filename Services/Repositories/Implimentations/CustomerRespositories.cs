@@ -825,7 +825,6 @@ namespace Services.Repositories.Implimentations
             var code = db.GetLastSTT("Vungs");
             int codeInt = code + 1;
             string codeStr = codeInt.ToAutoIncrementOrderCode();
-
             return codeStr;
         }
         public async Task<string> ExportExcelAsync(PagingParams pagingParams, string selectedId)
