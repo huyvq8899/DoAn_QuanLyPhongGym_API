@@ -21,5 +21,6 @@ namespace DLL.Entity
         public DateTime ToDate { set; get; }
         public DateTime FromDate { get; set; }
         public List<KhachHangLog> KhachHangLogs { get; set; }
+        public List<Card> Cards { get; set; }
     }
 }

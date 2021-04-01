@@ -90,5 +90,11 @@ namespace API.Controllers
             var base64String = await _ICustomerRespositories.ExportExcelAsync(pagingParams, selectedId);
             return Ok(new { base64String = base64String });
         }
+        [HttpGet("GetAllKH")]
+        public async Task<IActionResult> GetAllKH()
+        {
+            var result = await _ICustomerRespositories.GetAllKH();
+            return Ok(result);
+        }
     }
 }

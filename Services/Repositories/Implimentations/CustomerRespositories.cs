@@ -1183,9 +1183,10 @@ namespace Services.Repositories.Implimentations
 
         }
 
-        Task<List<KhachHangLogViewModel>> ICustomerRespositories.GetAllKH()
+        async Task<List<CustomerViewModel>> ICustomerRespositories.GetAllKH()
         {
-            throw new NotImplementedException();
+            var entity = await db.Customers.ToListAsync();
+            return mp.Map<List<CustomerViewModel>>(entity);
         }
     }
 }
