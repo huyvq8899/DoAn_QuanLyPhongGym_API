@@ -11,7 +11,7 @@ namespace DLL.Entity
         public string CustomerName { get; set; }
         public string Address { get; set; }
         public DateTime? DoB { get; set; }
-        public string JobId { get; set; }
+        public string Job { get; set; }
         public string NumberPhone { get; set; }
         public string Note { get; set; }
         public string Email { get; set; }
@@ -22,6 +22,5 @@ namespace DLL.Entity
         public DateTime FromDate { get; set; }
         public List<KhachHangLog> KhachHangLogs { get; set; }
         public List<Card> Cards { get; set; }
-        public Job Job { get; set; }
     }
 }
