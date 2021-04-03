@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace DLL.Entity
 {
-    public  class Job : AuditableEntity
+    public class Job : AuditableEntity
     {
         public string Id { get; set; }
         public string JobName { set; get; }

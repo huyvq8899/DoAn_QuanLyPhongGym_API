@@ -118,7 +118,7 @@ namespace DLL.Migrations
 
                     b.Property<decimal?>("Height");
 
-                    b.Property<string>("JobId");
+                    b.Property<string>("Job");
 
                     b.Property<string>("ModifiedBy");
 
@@ -135,8 +135,6 @@ namespace DLL.Migrations
                     b.Property<decimal?>("Weight");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("JobId");
 
                     b.ToTable("Customers");
                 });
@@ -241,32 +239,6 @@ namespace DLL.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Function_Roles");
-                });
-
-            modelBuilder.Entity("DLL.Entity.Job", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("CreatedBy");
-
-                    b.Property<DateTime?>("CreatedDate");
-
-                    b.Property<string>("Description");
-
-                    b.Property<string>("JobName");
-
-                    b.Property<string>("ModifiedBy");
-
-                    b.Property<DateTime?>("ModifiedDate");
-
-                    b.Property<string>("PlaceWork");
-
-                    b.Property<bool?>("Status");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Jobs");
                 });
 
             modelBuilder.Entity("DLL.Entity.KhachHangLog", b =>

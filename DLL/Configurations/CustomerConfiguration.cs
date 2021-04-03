@@ -11,10 +11,6 @@ namespace DLL.Configurations
         {
             entity.ToTable("Customers");
             entity.HasKey(c => new { c.Id });
-            entity.HasOne<Job>(u => u.Job)
-              .WithMany(s => s.Customers)
-              .HasForeignKey(sc => sc.JobId)
-              .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

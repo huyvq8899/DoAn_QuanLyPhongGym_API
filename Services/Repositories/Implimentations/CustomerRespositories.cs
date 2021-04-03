@@ -277,7 +277,7 @@ namespace Services.Repositories.Implimentations
                     ur.CustomerName = model.CustomerName;
                     ur.Address = model.Address;
                     ur.DoB = model.DoB;
-                    ur.JobId = model.JobId;
+                    ur.Job = model.Job;
                     ur.NumberPhone = model.NumberPhone;
                     ur.Note = model.Note;
                     ur.Email = model.Email;
@@ -353,7 +353,6 @@ namespace Services.Repositories.Implimentations
         public async Task<List<CustomerViewModel>> GetAllKH()
         {
             var query = from dt in db.Customers
-                        join jb in db.Jobs on dt.JobId equals jb.Id
 
                         orderby dt.ModifiedDate descending
                         select new CustomerViewModel
@@ -363,7 +362,7 @@ namespace Services.Repositories.Implimentations
                             CustomerCode = dt.CustomerCode.ToTrim(),
                             Address = dt.Address,
                             DoB = dt.DoB,
-                            Job = jb.JobName,
+                            Job = dt.Job,
                             NumberPhone = dt.NumberPhone.ToTrim(),
                             Note = dt.Note,
                             Height = dt.Height,
@@ -388,7 +387,6 @@ namespace Services.Repositories.Implimentations
                     {
                         query = from dt in db.Customers
                                 join us in db.Users on dt.CreatedBy equals us.UserId
-                                join jb in db.Jobs on dt.JobId equals jb.Id
                                 orderby dt.CreatedDate descending
                                 select new CustomerViewModel
                                 {
@@ -397,8 +395,7 @@ namespace Services.Repositories.Implimentations
                                     CustomerCode = dt.CustomerCode.ToTrim(),
                                     Address = dt.Address,
                                     DoB = dt.DoB,
-                                    JobId = dt.JobId,
-                                    JobName = jb.JobName,
+                                    Job = dt.Job,
                                     NumberPhone = dt.NumberPhone.ToTrim(),
                                     Note = dt.Note,
                                     Height = dt.Height,
@@ -416,7 +413,6 @@ namespace Services.Repositories.Implimentations
                         query = from dt in db.Customers
                                 where dt.CreatedBy == selectedId
                                 join us in db.Users on dt.CreatedBy equals us.UserId
-                                join jb in db.Jobs on dt.JobId equals jb.Id
                                 orderby dt.CreatedDate descending
                                 select new CustomerViewModel
                                 {
@@ -425,8 +421,7 @@ namespace Services.Repositories.Implimentations
                                     CustomerCode = dt.CustomerCode.ToTrim(),
                                     Address = dt.Address,
                                     DoB = dt.DoB,
-                                    JobId = dt.JobId,
-                                    JobName = jb.JobName,
+                                    Job = dt.Job,
                                     NumberPhone = dt.NumberPhone.ToTrim(),
                                     Note = dt.Note,
                                     Height = dt.Height,
@@ -452,7 +447,6 @@ namespace Services.Repositories.Implimentations
 
                             query = from dt in db.Customers
                                     join us in db.Users on dt.CreatedBy equals us.UserId
-                                    join jb in db.Jobs on dt.JobId equals jb.Id
                                     where us.NguoiQuanLy == Id || us.UserId == Id
                                     orderby dt.CreatedDate descending
                                     select new CustomerViewModel
@@ -462,8 +456,7 @@ namespace Services.Repositories.Implimentations
                                         CustomerCode = dt.CustomerCode.ToTrim(),
                                         Address = dt.Address,
                                         DoB = dt.DoB,
-                                        JobId = dt.JobId,
-                                        JobName = jb.JobName,
+                                        Job = dt.Job,
                                         NumberPhone = dt.NumberPhone.ToTrim(),
                                         Note = dt.Note,
                                         Height = dt.Height,
@@ -480,7 +473,6 @@ namespace Services.Repositories.Implimentations
                         {
                             query = from dt in db.Customers
                                     join us in db.Users on dt.CreatedBy equals us.UserId
-                                    join jb in db.Jobs on dt.JobId equals jb.Id
                                     where dt.CreatedBy == Id
                                     orderby dt.CreatedDate descending
                                     select new CustomerViewModel
@@ -490,8 +482,7 @@ namespace Services.Repositories.Implimentations
                                         CustomerCode = dt.CustomerCode.ToTrim(),
                                         Address = dt.Address,
                                         DoB = dt.DoB,
-                                        JobId = dt.JobId,
-                                        JobName =  jb.JobName,
+                                        Job = dt.Job,
                                         NumberPhone = dt.NumberPhone.ToTrim(),
                                         Note = dt.Note,
                                         Height = dt.Height,
@@ -516,7 +507,6 @@ namespace Services.Repositories.Implimentations
                             {
                                 query = from dt in db.Customers
                                         join us in db.Users on dt.CreatedBy equals us.UserId
-                                        join jb in db.Jobs on dt.JobId equals jb.Id
                                         where us.NguoiQuanLy == Id || us.UserId == Id
                                         orderby dt.CreatedDate descending
                                         select new CustomerViewModel
@@ -526,8 +516,7 @@ namespace Services.Repositories.Implimentations
                                             CustomerCode = dt.CustomerCode.ToTrim(),
                                             Address = dt.Address,
                                             DoB = dt.DoB,
-                                            JobId = dt.JobId,
-                                            JobName = jb.JobName,
+                                            Job = dt.Job,
                                             NumberPhone = dt.NumberPhone.ToTrim(),
                                             Note = dt.Note,
                                             Height = dt.Height,
@@ -544,7 +533,6 @@ namespace Services.Repositories.Implimentations
                             {
                                 query = from dt in db.Customers
                                         join us in db.Users on dt.CreatedBy equals us.UserId
-                                        join jb in db.Jobs on dt.JobId equals jb.Id
                                         where dt.CreatedBy == Id
                                         orderby dt.CreatedDate descending
                                         select new CustomerViewModel
@@ -554,8 +542,7 @@ namespace Services.Repositories.Implimentations
                                             CustomerCode = dt.CustomerCode.ToTrim(),
                                             Address = dt.Address,
                                             DoB = dt.DoB,
-                                            JobId = dt.JobId,
-                                            JobName = jb.JobName,
+                                            Job = dt.Job,
                                             NumberPhone = dt.NumberPhone.ToTrim(),
                                             Note = dt.Note,
                                             Height = dt.Height,
@@ -573,7 +560,6 @@ namespace Services.Repositories.Implimentations
                         {
                             query = from dt in db.Customers
                                     join us in db.Users on dt.CreatedBy equals us.UserId
-                                    join jb in db.Jobs on dt.JobId equals jb.Id
                                     where dt.CreatedBy == Id
                                     orderby dt.CreatedDate descending
                                     select new CustomerViewModel
@@ -583,8 +569,7 @@ namespace Services.Repositories.Implimentations
                                         CustomerCode = dt.CustomerCode.ToTrim(),
                                         Address = dt.Address,
                                         DoB = dt.DoB,
-                                        JobId = dt.JobId,
-                                        JobName = jb.JobName,
+                                        Job = dt.Job,
                                         NumberPhone = dt.NumberPhone.ToTrim(),
                                         Note = dt.Note,
                                         Height = dt.Height,
@@ -642,13 +627,13 @@ namespace Services.Repositories.Implimentations
                     {
                         query = query.OrderByDescending(x => x.DoB);
                     }
-                    if (pagingParams.SortKey == "JobName" && pagingParams.SortValue == "ascend")
+                    if (pagingParams.SortKey == "Job" && pagingParams.SortValue == "ascend")
                     {
-                        query = query.OrderBy(x => x.JobName);
+                        query = query.OrderBy(x => x.Job);
                     }
-                    if (pagingParams.SortKey == "JobName" && pagingParams.SortValue == "descend")
+                    if (pagingParams.SortKey == "Job" && pagingParams.SortValue == "descend")
                     {
-                        query = query.OrderByDescending(x => x.JobName);
+                        query = query.OrderByDescending(x => x.Job);
                     }
                     if (pagingParams.SortKey == "NumberPhone" && pagingParams.SortValue == "ascend")
                     {
@@ -746,7 +731,6 @@ namespace Services.Repositories.Implimentations
         public async Task<CustomerViewModel> GetById(string Id)
         {
             var query = from dt in db.Customers
-                        join jb in db.Jobs on dt.JobId equals jb.Id
                         where dt.Id == Id
                         select new CustomerViewModel
                         {
@@ -755,8 +739,7 @@ namespace Services.Repositories.Implimentations
                             CustomerCode = dt.CustomerCode.ToTrim(),
                             Address = dt.Address,
                             DoB = dt.DoB,
-                            JobId = dt.JobId,
-                            JobName = jb.JobName,
+                            Job = dt.Job,
                             NumberPhone = dt.NumberPhone.ToTrim(),
                             Note = dt.Note,
                             Height = dt.Height,
@@ -780,7 +763,6 @@ namespace Services.Repositories.Implimentations
                 if (tg.RoleId == "NVKD")
                 {
                     var query = from dt in db.Customers
-                                join jb in db.Jobs on dt.JobId equals jb.Id
                                 where dt.CreatedBy == Id
                                 select new CustomerViewModel
                                 {
@@ -789,8 +771,7 @@ namespace Services.Repositories.Implimentations
                                     CustomerCode = dt.CustomerCode.ToTrim(),
                                     Address = dt.Address,
                                     DoB = dt.DoB,
-                                    JobId = dt.JobId,
-                                    JobName = jb.JobName,
+                                    Job = dt.Job,
                                     NumberPhone = dt.NumberPhone.ToTrim(),
                                     Note = dt.Note,
                                     Height = dt.Height,
@@ -806,7 +787,6 @@ namespace Services.Repositories.Implimentations
                 else
                 {
                     var query = from dt in db.Customers
-                                join jb in db.Jobs on dt.JobId equals jb.Id
                                 select new CustomerViewModel
                                 {
                                     Id = dt.Id,
@@ -814,8 +794,7 @@ namespace Services.Repositories.Implimentations
                                     CustomerCode = dt.CustomerCode.ToTrim(),
                                     Address = dt.Address,
                                     DoB = dt.DoB,
-                                    JobId = dt.JobId,
-                                    JobName = jb.JobName,
+                                    Job = dt.Job,
                                     NumberPhone = dt.NumberPhone.ToTrim(),
                                     Note = dt.Note,
                                     Height = dt.Height,
@@ -857,7 +836,6 @@ namespace Services.Repositories.Implimentations
 
             var query = from dt in db.Customers
                         join us in db.Users on dt.CreatedBy equals us.UserId
-                        join jb in db.Jobs on dt.JobId equals jb.Id
                         orderby dt.CreatedDate descending
                         select new CustomerViewModel
                         {
@@ -865,8 +843,7 @@ namespace Services.Repositories.Implimentations
                             CustomerCode = dt.CustomerCode.ToTrim(),
                             Address = dt.Address,
                             DoB = dt.DoB,
-                            JobId = dt.JobId,
-                            JobName = jb.JobName,
+                            Job = dt.Job,
                             NumberPhone = dt.NumberPhone.ToTrim(),
                             Note = dt.Note,
                             Height = dt.Height,

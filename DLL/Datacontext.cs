@@ -34,7 +34,6 @@ namespace DLL
         public DbSet<Facility> Facilities { get; set; }
         public DbSet<Service> Services { get; set; }
         public DbSet<KhachHangLog> KhachHangLogs { get; set; }
-        public DbSet<Job> Jobs { get; set; }
 
 
         public virtual DbSet<RetrieveOrderRecord> RetrieveOrderRecords { get; set; }
@@ -51,7 +50,6 @@ namespace DLL
             modelBuilder.AddConfiguration(new CardTypeConfiguration());
             modelBuilder.AddConfiguration(new EquipmentConfiguration());
             modelBuilder.AddConfiguration(new ServiceConfiguration());
-           // modelBuilder.AddConfiguration(new JobConfiguration());
             modelBuilder.Entity<RetrieveOrderRecord>()
            .HasKey(o => o.STT);
         }

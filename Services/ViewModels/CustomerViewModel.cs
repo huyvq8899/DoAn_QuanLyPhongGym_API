@@ -20,7 +20,5 @@ namespace Services.ViewModels
         public string HealthStatus { get; set; }
         public string CreateDateName { get; set; }
         public string NguoiThem { get; set; }
-        public string JobId { get; set; }
-        public string JobName { get; set; }
     }
 }
