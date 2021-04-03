@@ -9,6 +9,7 @@ namespace DLL.Configurations
         public override void Configure(EntityTypeBuilder<Job> entity)
         {
             entity.HasKey(c => new { c.Id });
+         
         }
     }
 }

@@ -11,7 +11,7 @@ namespace DLL.Entity
         public string CustomerName { get; set; }
         public string Address { get; set; }
         public DateTime? DoB { get; set; }
-        public string JobId { get; set; }
+        public String JobId { get; set; }
         public string NumberPhone { get; set; }
         public string Note { get; set; }
         public string Email { get; set; }
