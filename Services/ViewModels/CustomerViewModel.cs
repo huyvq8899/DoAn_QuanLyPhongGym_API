@@ -22,5 +22,6 @@ namespace Services.ViewModels
         public string NguoiThem { get; set; }
         public string JobId { get; set; }
         public string JobName { get; set; }
+        public string PlaceWork { get; set; }
     }
 }

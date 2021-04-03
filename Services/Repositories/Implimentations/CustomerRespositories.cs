@@ -41,7 +41,7 @@ namespace Services.Repositories.Implimentations
             model.CustomerCode = model.CustomerCode.ToTrim();
             model.Address = model.Address;
             model.DoB = model.DoB;
-            model.Job = model.Job;
+            model.JobId = model.JobId;
             model.NumberPhone = model.NumberPhone.ToTrim();
             model.Note = model.Note;
             model.Height = model.Height;
@@ -399,6 +399,7 @@ namespace Services.Repositories.Implimentations
                                     DoB = dt.DoB,
                                     JobId = dt.JobId,
                                     JobName = jb.JobName,
+                                    PlaceWork= jb.PlaceWork,
                                     NumberPhone = dt.NumberPhone.ToTrim(),
                                     Note = dt.Note,
                                     Height = dt.Height,
@@ -427,6 +428,7 @@ namespace Services.Repositories.Implimentations
                                     DoB = dt.DoB,
                                     JobId = dt.JobId,
                                     JobName = jb.JobName,
+                                    PlaceWork = jb.PlaceWork,
                                     NumberPhone = dt.NumberPhone.ToTrim(),
                                     Note = dt.Note,
                                     Height = dt.Height,
@@ -464,6 +466,7 @@ namespace Services.Repositories.Implimentations
                                         DoB = dt.DoB,
                                         JobId = dt.JobId,
                                         JobName = jb.JobName,
+                                        PlaceWork = jb.PlaceWork,
                                         NumberPhone = dt.NumberPhone.ToTrim(),
                                         Note = dt.Note,
                                         Height = dt.Height,
@@ -492,6 +495,7 @@ namespace Services.Repositories.Implimentations
                                         DoB = dt.DoB,
                                         JobId = dt.JobId,
                                         JobName =  jb.JobName,
+                                        PlaceWork = jb.PlaceWork,
                                         NumberPhone = dt.NumberPhone.ToTrim(),
                                         Note = dt.Note,
                                         Height = dt.Height,
@@ -528,6 +532,7 @@ namespace Services.Repositories.Implimentations
                                             DoB = dt.DoB,
                                             JobId = dt.JobId,
                                             JobName = jb.JobName,
+                                            PlaceWork = jb.PlaceWork,
                                             NumberPhone = dt.NumberPhone.ToTrim(),
                                             Note = dt.Note,
                                             Height = dt.Height,
@@ -556,6 +561,7 @@ namespace Services.Repositories.Implimentations
                                             DoB = dt.DoB,
                                             JobId = dt.JobId,
                                             JobName = jb.JobName,
+                                            PlaceWork = jb.PlaceWork,
                                             NumberPhone = dt.NumberPhone.ToTrim(),
                                             Note = dt.Note,
                                             Height = dt.Height,
@@ -585,6 +591,7 @@ namespace Services.Repositories.Implimentations
                                         DoB = dt.DoB,
                                         JobId = dt.JobId,
                                         JobName = jb.JobName,
+                                        PlaceWork = jb.PlaceWork,
                                         NumberPhone = dt.NumberPhone.ToTrim(),
                                         Note = dt.Note,
                                         Height = dt.Height,
@@ -730,6 +737,14 @@ namespace Services.Repositories.Implimentations
                     {
                         query = query.OrderByDescending(x => x.CreatedBy);
                     }
+                    if (pagingParams.SortKey == "PlaceWork" && pagingParams.SortValue == "ascend")
+                    {
+                        query = query.OrderBy(x => x.PlaceWork);
+                    }
+                    if (pagingParams.SortKey == "PlaceWork" && pagingParams.SortValue == "descend")
+                    {
+                        query = query.OrderByDescending(x => x.PlaceWork);
+                    }
                 }
                 if (pagingParams.PageSize == -1)
                 {
@@ -757,6 +772,7 @@ namespace Services.Repositories.Implimentations
                             DoB = dt.DoB,
                             JobId = dt.JobId,
                             JobName = jb.JobName,
+                            PlaceWork = jb.PlaceWork,
                             NumberPhone = dt.NumberPhone.ToTrim(),
                             Note = dt.Note,
                             Height = dt.Height,
@@ -791,6 +807,7 @@ namespace Services.Repositories.Implimentations
                                     DoB = dt.DoB,
                                     JobId = dt.JobId,
                                     JobName = jb.JobName,
+                                    PlaceWork = jb.PlaceWork,
                                     NumberPhone = dt.NumberPhone.ToTrim(),
                                     Note = dt.Note,
                                     Height = dt.Height,
@@ -816,6 +833,7 @@ namespace Services.Repositories.Implimentations
                                     DoB = dt.DoB,
                                     JobId = dt.JobId,
                                     JobName = jb.JobName,
+                                    PlaceWork = jb.PlaceWork,
                                     NumberPhone = dt.NumberPhone.ToTrim(),
                                     Note = dt.Note,
                                     Height = dt.Height,
@@ -867,6 +885,7 @@ namespace Services.Repositories.Implimentations
                             DoB = dt.DoB,
                             JobId = dt.JobId,
                             JobName = jb.JobName,
+                            PlaceWork = jb.PlaceWork,
                             NumberPhone = dt.NumberPhone.ToTrim(),
                             Note = dt.Note,
                             Height = dt.Height,
@@ -944,10 +963,12 @@ namespace Services.Repositories.Implimentations
                                         (x.DoBName ?? string.Empty).ToUpper().ToUnSign().Contains(keyword.ToUnSign()) ||
                                         (x.DoBName ?? string.Empty).ToUpper().Contains(keyword) ||
                                         (x.CreateDateName ?? string.Empty).ToUpper().ToUnSign().Contains(keyword.ToUnSign()) ||
-                                        (x.CreateDateName ?? string.Empty).ToUpper().Contains(keyword)
+                                        (x.CreateDateName ?? string.Empty).ToUpper().Contains(keyword) ||
+                                        (x.PlaceWork ?? string.Empty).ToUpper().ToUnSign().Contains(keyword.ToUnSign()) ||
+                                        (x.PlaceWork ?? string.Empty).ToUpper().Contains(keyword)
                                         //(x.CreatedDate) == DateTime.Parse(keyword)
                                         );
-
+                
             }
 
             if (!string.IsNullOrEmpty(pagingParams.KeywordCol))
@@ -1013,6 +1034,11 @@ namespace Services.Repositories.Implimentations
                 if (pagingParams.ColName == "createDateName")
                 {
                     query = query.Where(x => (x.CreateDateName ?? string.Empty).ToUpper().ToUnSign().Contains(keyword.ToUnSign()) || (x.CreateDateName ?? string.Empty).ToUpper().Contains(keyword));
+
+                }
+                if (pagingParams.ColName == "placeWork")
+                {
+                    query = query.Where(x => (x.PlaceWork ?? string.Empty).ToUpper().ToUnSign().Contains(keyword.ToUnSign()) || (x.PlaceWork ?? string.Empty).ToUpper().Contains(keyword));
 
                 }
 
@@ -1121,6 +1147,14 @@ namespace Services.Repositories.Implimentations
                 {
                     query = query.OrderByDescending(x => x.CreatedBy);
                 }
+                if (pagingParams.SortKey == "placeWork" && pagingParams.SortValue == "ascend")
+                {
+                    query = query.OrderBy(x => x.PlaceWork);
+                }
+                if (pagingParams.SortKey == "placeWork" && pagingParams.SortValue == "descend")
+                {
+                    query = query.OrderByDescending(x => x.PlaceWork);
+                }
             }
 
             string _path_sample = Path.Combine(_hostingEnvironment.ContentRootPath, $"MyAssets/uploaded/sample/Bao_cao_khach_hang.xlsx");
@@ -1168,7 +1202,7 @@ namespace Services.Repositories.Implimentations
                         worksheet.Cells[idx, 5].Value = it.Address;
                         worksheet.Cells[idx, 6].Value = it.NumberPhone;
                         worksheet.Cells[idx, 7].Value = it.Email;
-                        worksheet.Cells[idx, 8].Value = it.Job;
+                        worksheet.Cells[idx, 8].Value = it.PlaceWork;
                         worksheet.Cells[idx, 9].Value = it.Note;
                         worksheet.Cells[idx, 10].Value = it.Height;
                         worksheet.Cells[idx, 11].Value = it.Weight;
