@@ -47,5 +47,6 @@ namespace Services.Repositories.Interfaces
         Task<IList<BaoCaoThemKhachHangByNhanVienTheoThangParam>> GetAddKhachHangByNhanVienKD(BaoCaoThemKhachHangByNhanVienTheoThangParam model);
         Task<List<UserViewModel>> GetAllUserById(string Id);
         Task<bool> CheckQuyen(string userId);
+        Task<int> Import(IFormFile file);
     }
 }

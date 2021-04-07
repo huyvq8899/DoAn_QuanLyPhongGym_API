@@ -59,7 +59,8 @@ namespace Services.Repositories.Implimentations
                             NameType = cp.NameType,
                             FacilityName = fc.FacilityName,
                             ServiceName = sv.ServiceName,
-                            Price = sv.Money,
+                            Money = sv.Money,
+                            Price = cr.Price,
 
                         };
             return await query.OrderBy(x => x.CardCode).ToListAsync();
@@ -78,9 +79,10 @@ namespace Services.Repositories.Implimentations
             model.CustomerId = model.CustomerId;
             model.FacilityId = model.FacilityId;
             model.ServiceId = model.ServiceId;
-            model.Note = model.Note;
-            model.ToDate = model.ToDate;
+            model.Price = model.Price;
+            model.Note = model.Note;     
             model.FromDate = model.FromDate;
+            model.ToDate = Convert.ToDateTime(model.FromDate).Date.AddDays(30);
             model.CreatedDate = DateTime.Now;
             model.CreatedBy = model.CreatedBy;
             var entity = mp.Map<Card>(model);
@@ -141,7 +143,8 @@ namespace Services.Repositories.Implimentations
                                     FacilityId=cr.FacilityId,
                                     ServiceName = sv.ServiceName,
                                     ServiceId = cr.ServiceId,
-                                    Price = sv.Money,
+                                    Money = sv.Money,
+                                    Price = cr.Price,
                                     ToDate = cr.ToDate,
                                     FromDate = cr.FromDate,
                                     CreatedBy=cr.CreatedBy,
@@ -155,6 +158,7 @@ namespace Services.Repositories.Implimentations
                     {
                         query = from cr in db.Cards
                                 join ct in db.Customers on cr.CustomerId equals ct.Id
+                                join us in db.Users on cr.CreatedBy equals us.UserId
                                 join fc in db.Facilities on cr.FacilityId equals fc.Id
                                 join cp in db.CardTypes on cr.CardTypeId equals cp.Id
                                 join sv in db.Services on cr.ServiceId equals sv.Id
@@ -162,18 +166,26 @@ namespace Services.Repositories.Implimentations
                                 {
                                     Id = cr.Id,
                                     CardCode = cr.CardCode,
+                                    CardTypeId = cr.CardTypeId,
+                                    CustomerId = cr.CustomerId,
                                     CustomerCode = ct.CustomerCode,
                                     CustomerName = ct.CustomerName,
                                     Address = ct.Address,
                                     NumberPhone = ct.NumberPhone,
                                     NameType = cp.NameType,
                                     FacilityName = fc.FacilityName,
+                                    FacilityId = cr.FacilityId,
                                     ServiceName = sv.ServiceName,
-                                    Price = sv.Money,
+                                    ServiceId = cr.ServiceId,
+                                    Money = sv.Money,
+                                    Price = cr.Price,
                                     ToDate = cr.ToDate,
                                     FromDate = cr.FromDate,
+                                    CreatedBy = cr.CreatedBy,
                                     ToDateName = cr.ToDate.HasValue ? cr.ToDate.Value.ToString("dd/MM/yyyy") : "",
                                     FromDateName = cr.FromDate.HasValue ? cr.FromDate.Value.ToString("dd/MM/yyyy") : "",
+                                    NguoiThem = us.FullName,
+                                    CreateDateName = cr.CreatedDate.HasValue ? cr.CreatedDate.Value.ToString("dd/MM/yyyy") : ""
                                 };
                     }
 
@@ -189,6 +201,7 @@ namespace Services.Repositories.Implimentations
 
                             query = from cr in db.Cards
                                     join ct in db.Customers on cr.CustomerId equals ct.Id
+                                    join us in db.Users on cr.CreatedBy equals us.UserId
                                     join fc in db.Facilities on cr.FacilityId equals fc.Id
                                     join cp in db.CardTypes on cr.CardTypeId equals cp.Id
                                     join sv in db.Services on cr.ServiceId equals sv.Id
@@ -196,24 +209,33 @@ namespace Services.Repositories.Implimentations
                                     {
                                         Id = cr.Id,
                                         CardCode = cr.CardCode,
+                                        CardTypeId = cr.CardTypeId,
+                                        CustomerId = cr.CustomerId,
                                         CustomerCode = ct.CustomerCode,
                                         CustomerName = ct.CustomerName,
                                         Address = ct.Address,
                                         NumberPhone = ct.NumberPhone,
                                         NameType = cp.NameType,
                                         FacilityName = fc.FacilityName,
+                                        FacilityId = cr.FacilityId,
                                         ServiceName = sv.ServiceName,
-                                        Price = sv.Money,
+                                        ServiceId = cr.ServiceId,
+                                        Money = sv.Money,
+                                        Price = cr.Price,
                                         ToDate = cr.ToDate,
                                         FromDate = cr.FromDate,
+                                        CreatedBy = cr.CreatedBy,
                                         ToDateName = cr.ToDate.HasValue ? cr.ToDate.Value.ToString("dd/MM/yyyy") : "",
                                         FromDateName = cr.FromDate.HasValue ? cr.FromDate.Value.ToString("dd/MM/yyyy") : "",
+                                        NguoiThem = us.FullName,
+                                        CreateDateName = cr.CreatedDate.HasValue ? cr.CreatedDate.Value.ToString("dd/MM/yyyy") : ""
                                     };
                         }
                         else
                         {
                             query = from cr in db.Cards
                                     join ct in db.Customers on cr.CustomerId equals ct.Id
+                                    join us in db.Users on cr.CreatedBy equals us.UserId
                                     join fc in db.Facilities on cr.FacilityId equals fc.Id
                                     join cp in db.CardTypes on cr.CardTypeId equals cp.Id
                                     join sv in db.Services on cr.ServiceId equals sv.Id
@@ -221,18 +243,26 @@ namespace Services.Repositories.Implimentations
                                     {
                                         Id = cr.Id,
                                         CardCode = cr.CardCode,
+                                        CardTypeId = cr.CardTypeId,
+                                        CustomerId = cr.CustomerId,
                                         CustomerCode = ct.CustomerCode,
                                         CustomerName = ct.CustomerName,
                                         Address = ct.Address,
                                         NumberPhone = ct.NumberPhone,
                                         NameType = cp.NameType,
                                         FacilityName = fc.FacilityName,
+                                        FacilityId = cr.FacilityId,
                                         ServiceName = sv.ServiceName,
-                                        Price = sv.Money,
+                                        ServiceId = cr.ServiceId,
+                                        Money = sv.Money,
+                                        Price = cr.Price,
                                         ToDate = cr.ToDate,
                                         FromDate = cr.FromDate,
+                                        CreatedBy = cr.CreatedBy,
                                         ToDateName = cr.ToDate.HasValue ? cr.ToDate.Value.ToString("dd/MM/yyyy") : "",
                                         FromDateName = cr.FromDate.HasValue ? cr.FromDate.Value.ToString("dd/MM/yyyy") : "",
+                                        NguoiThem = us.FullName,
+                                        CreateDateName = cr.CreatedDate.HasValue ? cr.CreatedDate.Value.ToString("dd/MM/yyyy") : ""
                                     };
                         }
                     }
@@ -247,6 +277,7 @@ namespace Services.Repositories.Implimentations
                             {
                                 query = from cr in db.Cards
                                         join ct in db.Customers on cr.CustomerId equals ct.Id
+                                        join us in db.Users on cr.CreatedBy equals us.UserId
                                         join fc in db.Facilities on cr.FacilityId equals fc.Id
                                         join cp in db.CardTypes on cr.CardTypeId equals cp.Id
                                         join sv in db.Services on cr.ServiceId equals sv.Id
@@ -254,24 +285,33 @@ namespace Services.Repositories.Implimentations
                                         {
                                             Id = cr.Id,
                                             CardCode = cr.CardCode,
+                                            CardTypeId = cr.CardTypeId,
+                                            CustomerId = cr.CustomerId,
                                             CustomerCode = ct.CustomerCode,
                                             CustomerName = ct.CustomerName,
                                             Address = ct.Address,
                                             NumberPhone = ct.NumberPhone,
                                             NameType = cp.NameType,
                                             FacilityName = fc.FacilityName,
+                                            FacilityId = cr.FacilityId,
                                             ServiceName = sv.ServiceName,
-                                            Price = sv.Money,
+                                            ServiceId = cr.ServiceId,
+                                            Money = sv.Money,
+                                            Price = cr.Price,
                                             ToDate = cr.ToDate,
                                             FromDate = cr.FromDate,
+                                            CreatedBy = cr.CreatedBy,
                                             ToDateName = cr.ToDate.HasValue ? cr.ToDate.Value.ToString("dd/MM/yyyy") : "",
                                             FromDateName = cr.FromDate.HasValue ? cr.FromDate.Value.ToString("dd/MM/yyyy") : "",
+                                            NguoiThem = us.FullName,
+                                            CreateDateName = cr.CreatedDate.HasValue ? cr.CreatedDate.Value.ToString("dd/MM/yyyy") : ""
                                         };
                             }
                             else
                             {
                                 query = from cr in db.Cards
                                         join ct in db.Customers on cr.CustomerId equals ct.Id
+                                        join us in db.Users on cr.CreatedBy equals us.UserId
                                         join fc in db.Facilities on cr.FacilityId equals fc.Id
                                         join cp in db.CardTypes on cr.CardTypeId equals cp.Id
                                         join sv in db.Services on cr.ServiceId equals sv.Id
@@ -279,18 +319,26 @@ namespace Services.Repositories.Implimentations
                                         {
                                             Id = cr.Id,
                                             CardCode = cr.CardCode,
+                                            CardTypeId = cr.CardTypeId,
+                                            CustomerId = cr.CustomerId,
                                             CustomerCode = ct.CustomerCode,
                                             CustomerName = ct.CustomerName,
                                             Address = ct.Address,
                                             NumberPhone = ct.NumberPhone,
                                             NameType = cp.NameType,
                                             FacilityName = fc.FacilityName,
+                                            FacilityId = cr.FacilityId,
                                             ServiceName = sv.ServiceName,
-                                            Price = sv.Money,
+                                            ServiceId = cr.ServiceId,
+                                            Money = sv.Money,
+                                            Price = cr.Price,
                                             ToDate = cr.ToDate,
                                             FromDate = cr.FromDate,
+                                            CreatedBy = cr.CreatedBy,
                                             ToDateName = cr.ToDate.HasValue ? cr.ToDate.Value.ToString("dd/MM/yyyy") : "",
                                             FromDateName = cr.FromDate.HasValue ? cr.FromDate.Value.ToString("dd/MM/yyyy") : "",
+                                            NguoiThem = us.FullName,
+                                            CreateDateName = cr.CreatedDate.HasValue ? cr.CreatedDate.Value.ToString("dd/MM/yyyy") : ""
                                         };
                             }
                         }
@@ -298,6 +346,7 @@ namespace Services.Repositories.Implimentations
                         {
                             query = from cr in db.Cards
                                     join ct in db.Customers on cr.CustomerId equals ct.Id
+                                    join us in db.Users on cr.CreatedBy equals us.UserId
                                     join fc in db.Facilities on cr.FacilityId equals fc.Id
                                     join cp in db.CardTypes on cr.CardTypeId equals cp.Id
                                     join sv in db.Services on cr.ServiceId equals sv.Id
@@ -305,18 +354,26 @@ namespace Services.Repositories.Implimentations
                                     {
                                         Id = cr.Id,
                                         CardCode = cr.CardCode,
+                                        CardTypeId = cr.CardTypeId,
+                                        CustomerId = cr.CustomerId,
                                         CustomerCode = ct.CustomerCode,
                                         CustomerName = ct.CustomerName,
                                         Address = ct.Address,
                                         NumberPhone = ct.NumberPhone,
                                         NameType = cp.NameType,
                                         FacilityName = fc.FacilityName,
+                                        FacilityId = cr.FacilityId,
                                         ServiceName = sv.ServiceName,
-                                        Price = sv.Money,
+                                        ServiceId = cr.ServiceId,
+                                        Money = sv.Money,
+                                        Price = cr.Price,
                                         ToDate = cr.ToDate,
                                         FromDate = cr.FromDate,
+                                        CreatedBy = cr.CreatedBy,
                                         ToDateName = cr.ToDate.HasValue ? cr.ToDate.Value.ToString("dd/MM/yyyy") : "",
                                         FromDateName = cr.FromDate.HasValue ? cr.FromDate.Value.ToString("dd/MM/yyyy") : "",
+                                        NguoiThem = us.FullName,
+                                        CreateDateName = cr.CreatedDate.HasValue ? cr.CreatedDate.Value.ToString("dd/MM/yyyy") : ""
                                     };
                         }
 
@@ -764,6 +821,7 @@ namespace Services.Repositories.Implimentations
             if (rs != null) return true;
             else return false;
         }
+
 
     }
 }

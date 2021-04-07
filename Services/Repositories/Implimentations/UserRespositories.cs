@@ -182,13 +182,6 @@ namespace Services.Repositories.Implimentations
             db.Users.Update(rs);
             return await db.SaveChangesAsync() > 0;
         }
-        public async Task<bool> CheckEmail(string Email)
-        {
-            var rs = await db.Users.FirstOrDefaultAsync(x => x.Email.ToString().ToUpper().ToTrim() == (Email.ToString().ToUpper().ToTrim()));
-            if (rs != null) return true;
-            else return false;
-
-        }
         public async Task<int> Update(UserViewModel model)
         {
             var ur = await db.Users.AsNoTracking().FirstOrDefaultAsync(x => x.UserId == model.UserId);
@@ -774,8 +767,8 @@ namespace Services.Repositories.Implimentations
                     {
                         var query = from ur in db.Users
                                     join dt in db.Customers on ur.UserId equals dt.CreatedBy
-                                    where ur.Status == true && dt.CreatedDate >= DateTime.Parse(pagingParams.fromDate)
-                                    && dt.CreatedDate <= DateTime.Parse(pagingParams.toDate).AddDays(1)
+                                    /*where ur.Status == true && dt.CreatedDate >= DateTime.Parse(pagingParams.fromDate)
+                                    && dt.CreatedDate <= DateTime.Parse(pagingParams.toDate).AddDays(1)*/
                                     group ur by ur.UserId into userGroup
                                     select new UserViewModel
                                     {
@@ -1156,6 +1149,18 @@ namespace Services.Repositories.Implimentations
         {
             throw new NotImplementedException();
         }
+        public async Task<bool> CheckEmail(string Email)
+        {
+            if (Email != null && Email != "" && Email != "null")
+            {
+                var rs = await db.Users.FirstOrDefaultAsync(x => (x.Email ?? string.Empty).ToString().ToUpper().ToTrim() == (Email.ToString().ToUpper().ToTrim()));
+                if (rs != null) return true;
+                else return false;
+            }
+            else return false;
+
+
+        }
 
         public async Task<IList<BaoCaoThemKhachHangTheoNamParam>> GetAddKHByYear(BaoCaoThemKhachHangTheoNamParam model)
         {
@@ -1163,7 +1168,7 @@ namespace Services.Repositories.Implimentations
             {
                 var query = (from dt in db.Customers
                              join ur in db.Users on dt.CreatedBy equals ur.UserId
-                             where ur.Status == true && (dt.CreatedDate.Value.Year == model.Year)
+                             where /*ur.Status == true &&*/ (dt.CreatedDate.Value.Year == model.Year)
                              select new CustomerViewModel
                              {
                                  Id = dt.Id,
@@ -1271,7 +1276,7 @@ namespace Services.Repositories.Implimentations
             if (tg.RoleId == "BLD" || tg.RoleId == "ADMIN")
             {
                 var query = from ur in db.Users
-                            where ur.Status == true
+                           /* where ur.Status == true*/
                             orderby ur.CreatedDate descending
                             select new UserViewModel
                             {
@@ -1290,7 +1295,7 @@ namespace Services.Repositories.Implimentations
             else if (tg.RoleId == "PPKD")
             {
                 var query = from ur in db.Users
-                            where ur.Status == true
+                           /* where ur.Status == true*/
                             where ur.RoleId != "BLD" && ur.RoleId != "ADMIN"
                             orderby ur.CreatedDate descending
                             select new UserViewModel
@@ -1313,7 +1318,7 @@ namespace Services.Repositories.Implimentations
                 if (temp != null)
                 {
                     var query = from ur in db.Users
-                                where ur.Status == true
+                               /* where ur.Status == true*/
                                 where ur.NguoiQuanLy == Id || ur.UserId == Id
                                 orderby ur.CreatedDate descending
                                 select new UserViewModel
@@ -1392,6 +1397,32 @@ namespace Services.Repositories.Implimentations
             //}
 
         }
+        public async Task<int> Import(IFormFile file)
+        {
+            var list = new List<UserViewModel>();
+            using (var stream = new MemoryStream())
+            {
+                await file.CopyToAsync(stream);
+                using (var package = new ExcelPackage(stream))
+                {
+                    ExcelWorksheet worksheet = package.Workbook.Worksheets[0];
+                    var rowcount = worksheet.Dimension.Rows;
+                    for (int row = 2; row <= rowcount; row++)
+                    {
+                        list.Add(new UserViewModel
+                        {
+                            UserName = worksheet.Cells[row, 1].Value.ToString().Trim(),
+                            Password = worksheet.Cells[row, 2].Value.ToString().Trim(),
+                            ConfirmPassword = worksheet.Cells[row, 3].Value.ToString().Trim(),
+                        });
+                    }
+                    package.SaveAs(new FileInfo($"MyAssets/uploaded/sample/pmbk_wework_listUser.xlsx"));
+                }
+                foreach (var item in list)
+                {
+                    await Insert(item);
+                }
+            }        return 1;
+        }
     }
-
 }

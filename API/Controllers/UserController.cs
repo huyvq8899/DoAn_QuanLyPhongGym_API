@@ -256,5 +256,12 @@ namespace API.Controllers
             var result = await _IUserRespositories.CheckQuyen(userId);
             return Ok(result);
         }
+        [HttpPost("ImportExcel")]
+        public async Task<IActionResult> ImportExcelListUser(IFormFile file)
+        {
+            var result = await _IUserRespositories.Import(file);
+            return Ok(result);
+        }
+
     }
 }

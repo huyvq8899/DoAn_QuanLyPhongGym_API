@@ -1,13 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.852
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30804.86
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API", "API\API.csproj", "{D27F68C8-B817-4B8D-9351-A315F5576970}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "API", "API\API.csproj", "{D27F68C8-B817-4B8D-9351-A315F5576970}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DLL", "DLL\DLL.csproj", "{F826B7F3-B84A-4B0D-8A3C-2F12A1ABF295}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DLL", "DLL\DLL.csproj", "{F826B7F3-B84A-4B0D-8A3C-2F12A1ABF295}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services", "Services\Services.csproj", "{530FDA74-1162-4DAA-A0B9-92491CBBEAE8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services", "Services\Services.csproj", "{530FDA74-1162-4DAA-A0B9-92491CBBEAE8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ADMIN.SEO", "ADMIN.SEO\ADMIN.SEO.csproj", "{C5008CA4-4B8E-4DD9-B5B5-D8E6EF70809C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{530FDA74-1162-4DAA-A0B9-92491CBBEAE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{530FDA74-1162-4DAA-A0B9-92491CBBEAE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{530FDA74-1162-4DAA-A0B9-92491CBBEAE8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C5008CA4-4B8E-4DD9-B5B5-D8E6EF70809C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C5008CA4-4B8E-4DD9-B5B5-D8E6EF70809C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C5008CA4-4B8E-4DD9-B5B5-D8E6EF70809C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C5008CA4-4B8E-4DD9-B5B5-D8E6EF70809C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

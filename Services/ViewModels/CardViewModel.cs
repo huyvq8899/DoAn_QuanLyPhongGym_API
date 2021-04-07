@@ -33,5 +33,6 @@ namespace Services.ViewModels
         public string HealthStatus { get; set; }
         public string NguoiThem { get; set; }
         public string CreateDateName { get; set; }
+        public decimal Money { get; set; }
     }
 }
