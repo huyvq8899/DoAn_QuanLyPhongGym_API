@@ -903,6 +903,558 @@ namespace Services.Repositories.Implimentations
                     }
                 }
             }
+            //return null;
+        }
+        public async Task<List<DoanhThuTheoThangTheoNamParam>> GetByDoanhThu(PagingParams pagingParams)
+        {
+            var tg = new User();
+            tg = await db.Users.FindAsync(pagingParams.userId);
+            if (tg.NguoiQuanLy == null || tg.NguoiQuanLy == "" || tg.NguoiQuanLy == string.Empty)
+            {
+                if (tg.RoleId == "BLD" || tg.RoleId == "ADMIN")
+                {
+                    if (!string.IsNullOrEmpty(pagingParams.fromDate) && !string.IsNullOrEmpty(pagingParams.toDate))
+                    {
+                        var query = (from cr in db.Cards
+                                    join ur in db.Users on cr.CreatedBy equals ur.UserId
+                                    /*where ur.Status == true && dt.CreatedDate >= DateTime.Parse(pagingParams.fromDate)
+                                    && dt.CreatedDate <= DateTime.Parse(pagingParams.toDate).AddDays(1)*/
+                                    select new CardViewModel
+                                    {
+                                        FullName = ur.FullName,
+                                        Price = cr.Price,
+                                    }).ToList();
+
+                        var query1 = from dt in query
+                                     group dt by dt.FullName.ToString() into crGroup
+                                     select new DoanhThuTheoThangTheoNamParam
+                                     {
+                                         FullName = crGroup.Key,
+                                         TongDoanhThu = crGroup.Sum(x => x.Price),
+                                     };
+                        return  query1.OrderByDescending(x => x.TongDoanhThu).ToList();
+                    }
+                    else
+                    {
+                        var query = (from cr in db.Cards
+                                     join ur in db.Users on cr.CreatedBy equals ur.UserId
+                                     /*where ur.Status == true && dt.CreatedDate >= DateTime.Parse(pagingParams.fromDate)
+                                     && dt.CreatedDate <= DateTime.Parse(pagingParams.toDate).AddDays(1)*/
+                                     select new CardViewModel
+                                     {
+                                         FullName = ur.FullName,
+                                         Price = cr.Price,
+                                     }).ToList();
+
+                        var query1 = from dt in query
+                                     group dt by dt.FullName.ToString() into crGroup
+                                     select new DoanhThuTheoThangTheoNamParam
+                                     {
+                                         FullName = crGroup.Key,
+                                         TongDoanhThu = crGroup.Sum(x => x.Price),
+                                     };
+                        return query1.OrderByDescending(x => x.TongDoanhThu).ToList();
+                    }
+
+                }
+                else
+                {
+                    if (!string.IsNullOrEmpty(pagingParams.fromDate) && !string.IsNullOrEmpty(pagingParams.toDate))
+                    {
+                        var query = (from cr in db.Cards
+                                     join ur in db.Users on cr.CreatedBy equals ur.UserId
+                                     /*where ur.Status == true && dt.CreatedDate >= DateTime.Parse(pagingParams.fromDate)
+                                     && dt.CreatedDate <= DateTime.Parse(pagingParams.toDate).AddDays(1)*/
+                                     select new CardViewModel
+                                     {
+                                         FullName = ur.FullName,
+                                         Price = cr.Price,
+                                     }).ToList();
+
+                        var query1 = from dt in query
+                                     group dt by dt.FullName.ToString() into crGroup
+                                     select new DoanhThuTheoThangTheoNamParam
+                                     {
+                                         FullName = crGroup.Key,
+                                         TongDoanhThu = crGroup.Sum(x => x.Price),
+                                     };
+                        return query1.OrderByDescending(x => x.TongDoanhThu).ToList();
+                    }
+                    else
+                    {
+                        var query = (from cr in db.Cards
+                                     join ur in db.Users on cr.CreatedBy equals ur.UserId
+                                     /*where ur.Status == true && dt.CreatedDate >= DateTime.Parse(pagingParams.fromDate)
+                                     && dt.CreatedDate <= DateTime.Parse(pagingParams.toDate).AddDays(1)*/
+                                     select new CardViewModel
+                                     {
+                                         FullName = ur.FullName,
+                                         Price = cr.Price,
+                                     }).ToList();
+
+                        var query1 = from dt in query
+                                     group dt by dt.FullName.ToString() into crGroup
+                                     select new DoanhThuTheoThangTheoNamParam
+                                     {
+                                         FullName = crGroup.Key,
+                                         TongDoanhThu = crGroup.Sum(x => x.Price),
+                                     };
+                        return query1.OrderByDescending(x => x.TongDoanhThu).ToList();
+                    }
+
+                }
+            }
+            else
+            {
+                tg = await db.Users.FindAsync(tg.NguoiQuanLy);
+                if (tg.RoleId == "BLD" || tg.RoleId == "ADMIN")
+                {
+                    if (!string.IsNullOrEmpty(pagingParams.fromDate) && !string.IsNullOrEmpty(pagingParams.toDate))
+                    {
+                        var query = (from cr in db.Cards
+                                     join ur in db.Users on cr.CreatedBy equals ur.UserId
+                                     /*where ur.Status == true && dt.CreatedDate >= DateTime.Parse(pagingParams.fromDate)
+                                     && dt.CreatedDate <= DateTime.Parse(pagingParams.toDate).AddDays(1)*/
+                                     select new CardViewModel
+                                     {
+                                         FullName = ur.FullName,
+                                         Price = cr.Price,
+                                     }).ToList();
+
+                        var query1 = from dt in query
+                                     group dt by dt.FullName.ToString() into crGroup
+                                     select new DoanhThuTheoThangTheoNamParam
+                                     {
+                                         FullName = crGroup.Key,
+                                         TongDoanhThu = crGroup.Sum(x => x.Price),
+                                     };
+                        return query1.OrderByDescending(x => x.TongDoanhThu).ToList();
+                    }
+                    else
+                    {
+                        var query = (from cr in db.Cards
+                                     join ur in db.Users on cr.CreatedBy equals ur.UserId
+                                     /*where ur.Status == true && dt.CreatedDate >= DateTime.Parse(pagingParams.fromDate)
+                                     && dt.CreatedDate <= DateTime.Parse(pagingParams.toDate).AddDays(1)*/
+                                     select new CardViewModel
+                                     {
+                                         FullName = ur.FullName,
+                                         Price = cr.Price,
+                                     }).ToList();
+
+                        var query1 = from dt in query
+                                     group dt by dt.FullName.ToString() into crGroup
+                                     select new DoanhThuTheoThangTheoNamParam
+                                     {
+                                         FullName = crGroup.Key,
+                                         TongDoanhThu = crGroup.Sum(x => x.Price),
+                                     };
+                        return query1.OrderByDescending(x => x.TongDoanhThu).ToList();
+                    }
+
+                }
+                else
+                {
+                    if (!string.IsNullOrEmpty(pagingParams.fromDate) && !string.IsNullOrEmpty(pagingParams.toDate))
+                    {
+                        var query = (from cr in db.Cards
+                                     join ur in db.Users on cr.CreatedBy equals ur.UserId
+                                     /*where ur.Status == true && dt.CreatedDate >= DateTime.Parse(pagingParams.fromDate)
+                                     && dt.CreatedDate <= DateTime.Parse(pagingParams.toDate).AddDays(1)*/
+                                     select new CardViewModel
+                                     {
+                                         FullName = ur.FullName,
+                                         Price = cr.Price,
+                                     }).ToList();
+
+                        var query1 = from dt in query
+                                     group dt by dt.FullName.ToString() into crGroup
+                                     select new DoanhThuTheoThangTheoNamParam
+                                     {
+                                         FullName = crGroup.Key,
+                                         TongDoanhThu = crGroup.Sum(x => x.Price),
+                                     };
+                        return query1.OrderByDescending(x => x.TongDoanhThu).ToList();
+                    }
+                    else
+                    {
+                        var query = (from cr in db.Cards
+                                     join ur in db.Users on cr.CreatedBy equals ur.UserId
+                                     /*where ur.Status == true && dt.CreatedDate >= DateTime.Parse(pagingParams.fromDate)
+                                     && dt.CreatedDate <= DateTime.Parse(pagingParams.toDate).AddDays(1)*/
+                                     select new CardViewModel
+                                     {
+                                         FullName = ur.FullName,
+                                         Price = cr.Price,
+                                     }).ToList();
+
+                        var query1 = from dt in query
+                                     group dt by dt.FullName.ToString() into crGroup
+                                     select new DoanhThuTheoThangTheoNamParam
+                                     {
+                                         FullName = crGroup.Key,
+                                         TongDoanhThu = crGroup.Sum(x => x.Price),
+                                     };
+                        return query1.OrderByDescending(x => x.TongDoanhThu).ToList();
+                    }
+                }
+            }
+            //return null;
+        }
+        public async Task<IList<BaoCaoTheTapHangByTheoThangParam>> GetAddTheTap(BaoCaoTheTapHangByTheoThangParam model, string Id, string selectedId)
+        {
+            try
+            {
+                var tg = new User();
+                tg = await db.Users.FindAsync(Id);
+                if (tg != null)
+                {
+                    if (tg.RoleId == "BLD" || tg.RoleId == "ADMIN")
+                    {
+                        if (selectedId == null || selectedId == "")
+                        {
+                            var query = (from kh in db.Cards
+                                         join ur in db.Users on kh.CreatedBy equals ur.UserId
+                                         where ur.Status == true && (kh.CreatedDate.Value.Year == model.Year) && (kh.CreatedDate.Value.Month == model.Month)
+                                         select new CardViewModel
+                                         {
+                                             Id = kh.Id,
+                                             CreatedBy = kh.CreatedBy,
+                                             CreatedDate = kh.CreatedDate,
+                                             NguoiThem = ur.FullName
+
+                                         }).ToList();
+                            var querytg = from b in query
+                                          group b by b.NguoiThem.ToString() into g
+                                          select new BaoCaoTheTapHangByTheoThangParam
+                                          {
+                                              FullName = g.Key,
+                                              SoLuongTheTap = g.Count()
+                                          };
+                            return querytg.ToList();
+                        }
+                        else
+                        {
+                            var query = (from kh in db.Cards
+                                         where kh.CreatedBy == selectedId
+                                         join ur in db.Users on kh.CreatedBy equals ur.UserId
+                                         where ur.Status == true && (kh.CreatedDate.Value.Year == model.Year) && (kh.CreatedDate.Value.Month == model.Month)
+                                         select new CardViewModel
+                                         {
+                                             Id = kh.Id,
+                                             CreatedBy = kh.CreatedBy,
+                                             CreatedDate = kh.CreatedDate,
+                                             NguoiThem = ur.FullName
+
+                                         }).ToList();
+                            var querytg = from b in query
+                                          group b by b.NguoiThem.ToString() into g
+                                          select new BaoCaoTheTapHangByTheoThangParam
+                                          {
+                                              FullName = g.Key,
+                                              SoLuongTheTap = g.Count()
+                                          };
+                            return querytg.ToList();
+
+                        }
+                    }
+                    else
+                    {
+                        if (tg.NguoiQuanLy == null || tg.NguoiQuanLy == "" || tg.NguoiQuanLy == string.Empty)
+                        {
+
+                            var temp = await db.Users.Where(x => x.NguoiQuanLy == tg.UserId).ToListAsync();
+                            if (temp != null)
+                            {
+
+                                var query = (from kh in db.Cards
+                                             join ur in db.Users on kh.CreatedBy equals ur.UserId
+                                             where ur.UserId == Id || ur.NguoiQuanLy == Id
+                                             where ur.Status == true && (kh.CreatedDate.Value.Year == model.Year) && (kh.CreatedDate.Value.Month == model.Month)
+                                             select new CardViewModel
+                                             {
+                                                 Id = kh.Id,
+                                                 CreatedBy = kh.CreatedBy,
+                                                 CreatedDate = kh.CreatedDate,
+                                                 NguoiThem = ur.FullName
+
+                                             }).ToList();
+                                var querytg = from b in query
+                                              group b by b.CreatedBy.ToString() into g
+                                              select new BaoCaoTheTapHangByTheoThangParam
+                                              {
+                                                  FullName = g.Key,
+                                                  SoLuongTheTap = g.Count()
+                                              };
+                                return querytg.ToList();
+                            }
+                            else
+                            {
+                                var query = (from kh in db.Cards
+                                             join ur in db.Users on kh.CreatedBy equals ur.UserId
+                                             where kh.CreatedBy == Id
+                                             where ur.Status == true && (kh.CreatedDate.Value.Year == model.Year) && (kh.CreatedDate.Value.Month == model.Month)
+                                             select new CardViewModel
+                                             {
+                                                 Id = kh.Id,
+                                                 CreatedBy = kh.CreatedBy,
+                                                 CreatedDate = kh.CreatedDate,
+                                                 NguoiThem = ur.FullName
+
+                                             }).ToList();
+                                var querytg = from b in query
+                                              group b by b.NguoiThem.ToString() into g
+                                              select new BaoCaoTheTapHangByTheoThangParam
+                                              {
+                                                  FullName = g.Key,
+                                                  SoLuongTheTap = g.Count()
+
+                                              };
+                                return querytg.ToList();
+                            }
+                        }
+                        else
+                        {
+                            var test = new User();
+                            test = await db.Users.FindAsync(tg.NguoiQuanLy);
+                            if (test.RoleId == "BLD" || test.RoleId == "ADMIN")
+                            {
+                                var temp = await db.Users.Where(x => x.NguoiQuanLy == tg.UserId).ToListAsync();
+                                if (temp != null)
+                                {
+
+
+                                    var query = (from kh in db.Cards
+                                                 join ur in db.Users on kh.CreatedBy equals ur.UserId
+                                                 where ur.Status == true && (kh.CreatedDate.Value.Year == model.Year) && (kh.CreatedDate.Value.Month == model.Month)
+                                                 where ur.NguoiQuanLy == Id || ur.UserId == Id
+                                                 select new CardViewModel
+                                                 {
+                                                     Id = kh.Id,
+                                                     CreatedBy = kh.CreatedBy,
+                                                     CreatedDate = kh.CreatedDate,
+                                                     NguoiThem = ur.FullName
+
+                                                 }).ToList();
+                                    var querytg = from b in query
+                                                  group b by b.NguoiThem.ToString() into g
+                                                  select new BaoCaoTheTapHangByTheoThangParam
+                                                  {
+                                                      FullName = g.Key,
+                                                      SoLuongTheTap = g.Count()
+
+                                                  };
+                                    return querytg.ToList();
+
+                                }
+                                else
+                                {
+                                    var query = (from kh in db.Cards
+                                                 join ur in db.Users on kh.CreatedBy equals ur.UserId
+                                                 where kh.CreatedBy == Id
+                                                 where ur.Status == true && (kh.CreatedDate.Value.Year == model.Year) && (kh.CreatedDate.Value.Month == model.Month)
+                                                 select new CardViewModel
+                                                 {
+                                                     Id = kh.Id,
+                                                     CreatedBy = kh.CreatedBy,
+                                                     CreatedDate = kh.CreatedDate,
+                                                     NguoiThem = ur.FullName
+
+                                                 }).ToList();
+                                    var querytg = from b in query
+                                                  group b by b.NguoiThem.ToString() into g
+                                                  select new BaoCaoTheTapHangByTheoThangParam
+                                                  {
+                                                      FullName = g.Key,
+                                                      SoLuongTheTap = g.Count()
+
+                                                  };
+                                    return querytg.ToList();
+                                }
+                            }
+                            else
+                            {
+                                var query = (from kh in db.Cards
+                                             join ur in db.Users on kh.CreatedBy equals ur.UserId
+                                             where kh.CreatedBy == Id
+                                             where ur.Status == true && (kh.CreatedDate.Value.Year == model.Year) && (kh.CreatedDate.Value.Month == model.Month)
+                                             select new CardViewModel
+                                             {
+                                                 Id = kh.Id,
+                                                 CreatedBy = kh.CreatedBy,
+                                                 CreatedDate = kh.CreatedDate,
+                                                 NguoiThem = ur.FullName
+
+                                             }).ToList();
+                                var querytg = from b in query
+                                              group b by b.NguoiThem.ToString() into g
+                                              select new BaoCaoTheTapHangByTheoThangParam
+                                              {
+                                                  FullName = g.Key,
+                                                  SoLuongTheTap = g.Count()
+
+                                              };
+                                return querytg.ToList();
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+            return null;
+        }
+        public async Task<List<UserViewModel>> GetSoLuongCard(PagingParams pagingParams)
+        {
+            var tg = new User();
+            tg = await db.Users.FindAsync(pagingParams.userId);
+            if (tg.NguoiQuanLy == null || tg.NguoiQuanLy == "" || tg.NguoiQuanLy == string.Empty)
+            {
+                if (tg.RoleId == "BLD" || tg.RoleId == "ADMIN")
+                {
+                    if (!string.IsNullOrEmpty(pagingParams.fromDate) && !string.IsNullOrEmpty(pagingParams.toDate))
+                    {
+                        var query = from ur in db.Users
+                                    join dt in db.Cards on ur.UserId equals dt.CreatedBy
+                                    /*where ur.Status == true && dt.CreatedDate >= DateTime.Parse(pagingParams.fromDate)
+                                    && dt.CreatedDate <= DateTime.Parse(pagingParams.toDate).AddDays(1)*/
+                                    group ur by ur.UserId into userGroup
+                                    select new UserViewModel
+                                    {
+                                        FullName = userGroup.Select(m => m.FullName).FirstOrDefault(),
+                                        SoLuongTheTap = userGroup.Count(),
+                                    };
+
+                        return await query.OrderByDescending(x => x.SoLuongTheTap).ToListAsync();
+                    }
+                    else
+                    {
+                        var query = from ur in db.Users
+                                    join dt in db.Cards on ur.UserId equals dt.CreatedBy
+                                    where ur.Status == true
+                                    group ur by ur.UserId into userGroup
+                                    select new UserViewModel
+                                    {
+                                        FullName = userGroup.Select(m => m.FullName).FirstOrDefault(),
+                                        SoLuongTheTap = userGroup.Count(),
+                                    };
+
+                        return await query.OrderByDescending(x => x.SoLuongTheTap).ToListAsync();
+                    }
+
+                }
+                else
+                {
+                    if (!string.IsNullOrEmpty(pagingParams.fromDate) && !string.IsNullOrEmpty(pagingParams.toDate))
+                    {
+                        var query = from ur in db.Users
+                                    join dt in db.Cards on ur.UserId equals dt.CreatedBy
+                                    where ur.Status == true && dt.CreatedDate >= DateTime.Parse(pagingParams.fromDate)
+                                    && dt.CreatedDate <= DateTime.Parse(pagingParams.toDate).AddDays(1)
+                                    where ur.NguoiQuanLy == pagingParams.userId || ur.UserId == pagingParams.userId
+                                    group ur by ur.UserId into userGroup
+                                    select new UserViewModel
+                                    {
+                                        FullName = userGroup.Select(m => m.FullName).FirstOrDefault(),
+                                        SoLuongTheTap = userGroup.Count(),
+                                    };
+
+                        return await query.OrderByDescending(x => x.SoLuongTheTap).ToListAsync();
+                    }
+                    else
+                    {
+                        var query = from ur in db.Users
+                                    join dt in db.Cards on ur.UserId equals dt.CreatedBy
+                                    where ur.Status == true
+                                    where ur.NguoiQuanLy == pagingParams.userId || ur.UserId == pagingParams.userId
+                                    group ur by ur.UserId into userGroup
+                                    select new UserViewModel
+                                    {
+                                        FullName = userGroup.Select(m => m.FullName).FirstOrDefault(),
+                                        SoLuongTheTap = userGroup.Count(),
+                                    };
+
+                        return await query.OrderByDescending(x => x.SoLuongTheTap).ToListAsync();
+                    }
+
+                }
+            }
+            else
+            {
+                tg = await db.Users.FindAsync(tg.NguoiQuanLy);
+                if (tg.RoleId == "BLD" || tg.RoleId == "ADMIN")
+                {
+                    if (!string.IsNullOrEmpty(pagingParams.fromDate) && !string.IsNullOrEmpty(pagingParams.toDate))
+                    {
+                        var query = from ur in db.Users
+                                    join dt in db.Cards on ur.UserId equals dt.CreatedBy
+                                    where ur.Status == true && dt.CreatedDate >= DateTime.Parse(pagingParams.fromDate)
+                                    && dt.CreatedDate <= DateTime.Parse(pagingParams.toDate).AddDays(1)
+                                    where ur.NguoiQuanLy == pagingParams.userId || ur.UserId == pagingParams.userId
+                                    group ur by ur.UserId into userGroup
+                                    select new UserViewModel
+                                    {
+                                        FullName = userGroup.Select(m => m.FullName).FirstOrDefault(),
+                                        SoLuongTheTap = userGroup.Count(),
+                                    };
+
+                        return await query.OrderByDescending(x => x.SoLuongTheTap).ToListAsync();
+                    }
+                    else
+                    {
+                        var query = from ur in db.Users
+                                    join dt in db.Cards on ur.UserId equals dt.CreatedBy
+                                    where ur.Status == true
+                                    where ur.NguoiQuanLy == pagingParams.userId || ur.UserId == pagingParams.userId
+                                    group ur by ur.UserId into userGroup
+                                    select new UserViewModel
+                                    {
+                                        FullName = userGroup.Select(m => m.FullName).FirstOrDefault(),
+                                        SoLuongTheTap = userGroup.Count(),
+                                    };
+
+                        return await query.OrderByDescending(x => x.SoLuongTheTap).ToListAsync();
+                    }
+
+                }
+                else
+                {
+                    if (!string.IsNullOrEmpty(pagingParams.fromDate) && !string.IsNullOrEmpty(pagingParams.toDate))
+                    {
+                        var query = from ur in db.Users
+                                    join dt in db.Cards on ur.UserId equals dt.CreatedBy
+                                    where ur.Status == true && dt.CreatedDate >= DateTime.Parse(pagingParams.fromDate)
+                                    && dt.CreatedDate <= DateTime.Parse(pagingParams.toDate).AddDays(1)
+                                    where ur.UserId == pagingParams.userId
+                                    group ur by ur.UserId into userGroup
+                                    select new UserViewModel
+                                    {
+                                        FullName = userGroup.Select(m => m.FullName).FirstOrDefault(),
+                                        SoLuongTheTap = userGroup.Count(),
+                                    };
+
+                        return await query.OrderByDescending(x => x.SoLuongTheTap).ToListAsync();
+                    }
+                    else
+                    {
+                        var query = from ur in db.Users
+                                    join dt in db.Cards on ur.UserId equals dt.CreatedBy
+                                    where ur.Status == true
+                                    where ur.UserId == pagingParams.userId
+                                    group ur by ur.UserId into userGroup
+                                    select new UserViewModel
+                                    {
+                                        FullName = userGroup.Select(m => m.FullName).FirstOrDefault(),
+                                        SoLuongTheTap = userGroup.Count(),
+                                    };
+
+                        return await query.OrderByDescending(x => x.SoLuongTheTap).ToListAsync();
+                    }
+                }
+            }
 
 
             //return null;

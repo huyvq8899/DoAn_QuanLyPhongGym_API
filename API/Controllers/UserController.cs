@@ -206,6 +206,12 @@ namespace API.Controllers
             var result = await _IUserRespositories.GetBySoLuong(pagingParams);
             return Ok(result);
         }
+        [HttpGet("GetBySoLuongCard")]
+        public async Task<IActionResult> GetBySoLuongCard([FromQuery] PagingParams pagingParams)
+        {
+            var result = await _IUserRespositories.GetSoLuongCard(pagingParams);
+            return Ok(result);
+        }
         [AllowAnonymous]
         [HttpGet("ExportExcelBaoCao")]
         public async Task<IActionResult> ExportExcelBaoCao([FromQuery] PagingParams pagingParams)
@@ -237,7 +243,12 @@ namespace API.Controllers
             var result = await _IUserRespositories.GetAddKhachHangByNhanVien(model);
             return Ok(result);
         }
-
+        [HttpPost("GetAddTheTapByNhanVien")]
+        public async Task<IActionResult> GetAddTheTap(BaoCaoTheTapHangByTheoThangParam model, string Id, string selectedId)
+        {
+            var result = await _IUserRespositories.GetAddTheTap(model, Id,selectedId);
+            return Ok(result);
+        }
         [HttpPost("GetAddKhachHangByNhanVienKD")]
         public async Task<IActionResult> GetLoiByNhanVienKD(BaoCaoThemKhachHangByNhanVienTheoThangParam model)
         {

@@ -895,6 +895,7 @@ namespace Services.Repositories.Implimentations
                             Status = true,
                             CreatedDate = dt.CreatedDate,
                             CreatedBy = dt.CreatedBy,
+                            NguoiThem = us.FullName,
                             DoBName = dt.DoB.HasValue ? dt.DoB.Value.ToString("dd/MM/yyyy") : "",
                             CreateDateName = dt.CreatedDate.HasValue ? dt.CreatedDate.Value.ToString("dd/MM/yyyy") : "",
                         };
@@ -1207,7 +1208,7 @@ namespace Services.Repositories.Implimentations
                         worksheet.Cells[idx, 10].Value = it.Height;
                         worksheet.Cells[idx, 11].Value = it.Weight;
                         worksheet.Cells[idx, 12].Value = it.HealthStatus;
-                        worksheet.Cells[idx, 13].Value = it.CreatedBy;
+                        worksheet.Cells[idx, 13].Value = it.NguoiThem;
                         worksheet.Cells[idx, 14].Value = it.CreateDateName;
                         idx += 1;
                     }

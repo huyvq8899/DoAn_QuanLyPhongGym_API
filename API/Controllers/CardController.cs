@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Services.Helper;
 using Services.Repositories.Interfaces;
 using Services.ViewModels;
 using System;
@@ -81,6 +82,12 @@ namespace API.Controllers
         {
             var base64String = await _ICardRespositories.ExportExcelAsync(pagingParams, selectedId);
             return Ok(new { base64String = base64String });
+        }
+        [HttpPost("GetDoanhThu")]
+        public async Task<IActionResult> GetDoanhThu(DoanhThuTheoThangTheoNamParam model, string Id, string selectedId)
+        {
+            var result = await _ICardRespositories.GetDoanhThu(model, Id, selectedId);
+            return Ok(result);
         }
     }
 }

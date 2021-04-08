@@ -34,5 +34,7 @@ namespace Services.ViewModels
         public string NguoiThem { get; set; }
         public string CreateDateName { get; set; }
         public decimal Money { get; set; }
+        public decimal TongDoanhThu { get; set; }
+        public string FullName { get; internal set; }
     }
 }

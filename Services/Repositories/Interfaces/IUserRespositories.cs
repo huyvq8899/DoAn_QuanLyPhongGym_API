@@ -37,6 +37,7 @@ namespace Services.Repositories.Interfaces
         Task<List<UserViewModel>> GetAllLastChildById(string id);
         Task<List<UserViewModel>> GetAllActiveByUser(string Id);
         Task<List<UserViewModel>> GetBySoLuong(PagingParams pagingParams);
+        Task<List<UserViewModel>> GetSoLuongCard(PagingParams pagingParams);
         Task<string> ExportExcelBaoCaoAsync(PagingParams pagingParams);
 
         Task<IList<int>> GetYears();
@@ -44,6 +45,7 @@ namespace Services.Repositories.Interfaces
         Task<IList<int>> GetYearsLoi();
         Task<IList<BaoCaoThemKhachHangTheoNamParam>> GetAddKHByYear(BaoCaoThemKhachHangTheoNamParam model);
         Task<IList<BaoCaoThemKhachHangByNhanVienTheoThangParam>> GetAddKhachHangByNhanVien(BaoCaoThemKhachHangByNhanVienTheoThangParam model);
+        Task<IList<BaoCaoTheTapHangByTheoThangParam>> GetAddTheTap(BaoCaoTheTapHangByTheoThangParam model, string Id, string selectedId);
         Task<IList<BaoCaoThemKhachHangByNhanVienTheoThangParam>> GetAddKhachHangByNhanVienKD(BaoCaoThemKhachHangByNhanVienTheoThangParam model);
         Task<List<UserViewModel>> GetAllUserById(string Id);
         Task<bool> CheckQuyen(string userId);

@@ -525,12 +525,12 @@ namespace Services.Repositories.Implimentations
             //    DateTime toDate = DateTime.Parse(pagingParams.toDate);
             //    query = query.Where(x => DateTime.Parse(x.NgayLap) >= fromDate && DateTime.Parse(x.NgayLap) <= toDate);
             //}
-            if (!string.IsNullOrEmpty(pagingParams.fromDate) && !string.IsNullOrEmpty(pagingParams.toDate))
+           /* if (!string.IsNullOrEmpty(pagingParams.fromDate) && !string.IsNullOrEmpty(pagingParams.toDate))
             {
                 DateTime fromDate = DateTime.Parse(pagingParams.fromDate);
                 DateTime toDate = DateTime.Parse(pagingParams.toDate);
                 query = query.Where(x => (x.CreatedDate >= fromDate && x.CreatedDate <= toDate.AddDays(1)));
-            }
+            }*/
             if (!string.IsNullOrEmpty(pagingParams.userId))
             {
                 if (currentUser.Role.RoleId != "ADMIN" && currentUser.Role.RoleId != "BLD")
@@ -730,7 +730,7 @@ namespace Services.Repositories.Implimentations
                 }
             }
 
-            string _path_sample = Path.Combine(_hostingEnvironment.ContentRootPath, $"MyAssets/uploaded/sample/Bao_cao_khach_hang.xlsx");
+            string _path_sample = Path.Combine(_hostingEnvironment.ContentRootPath, $"MyAssets/uploaded/sample/thong_ke_the_tap.xlsx");
             string desFileName = Guid.NewGuid() + ".xlsx";
             string desFilePath = Path.Combine(_hostingEnvironment.ContentRootPath, $"MyAssets/uploaded/excels/{desFileName}");
             string uploadFolder = Path.Combine(_hostingEnvironment.ContentRootPath, "MyAssets/uploaded/excels");
@@ -821,8 +821,213 @@ namespace Services.Repositories.Implimentations
             if (rs != null) return true;
             else return false;
         }
+        public async Task<IList<DoanhThuTheoThangTheoNamParam>> GetDoanhThu(DoanhThuTheoThangTheoNamParam model, string Id, string selectedId)
+        {
+            try
+            {
+                var tg = new User();
+                tg = await db.Users.FindAsync(Id);
+                if (tg != null)
+                {
+                    if (tg.RoleId == "BLD" || tg.RoleId == "ADMIN")
+                    {
+                        if (selectedId == null || selectedId == "")
+                        {
+                            var query = (from kh in db.Cards
+                                         join ur in db.Users on kh.CreatedBy equals ur.UserId
+                                         where ur.Status == true && (kh.CreatedDate.Value.Year == model.Year) && (kh.CreatedDate.Value.Month == model.Month)
+                                         select new CardViewModel
+                                         {
+                                             Id = kh.Id,
+                                             CreatedBy = kh.CreatedBy,
+                                             CreatedDate = kh.CreatedDate,
+                                             NguoiThem = ur.FullName,
+                                             Price = kh.Price,
+
+                                         }).ToList();
+                            var querytg = from b in query
+                                          group b by b.NguoiThem.ToString() into g
+                                          select new DoanhThuTheoThangTheoNamParam
+                                          {
+                                              FullName = g.Key,
+                                              TongDoanhThu = g.Sum(x => x.Price),
+                                          };
+                            return querytg.ToList();
+                        }
+                        else
+                        {
+                            var query = (from kh in db.Cards
+                                         where kh.CreatedBy == selectedId
+                                         join ur in db.Users on kh.CreatedBy equals ur.UserId
+                                         where ur.Status == true && (kh.CreatedDate.Value.Year == model.Year) && (kh.CreatedDate.Value.Month == model.Month)
+                                         select new CardViewModel
+                                         {
+                                             Id = kh.Id,
+                                             CreatedBy = kh.CreatedBy,
+                                             CreatedDate = kh.CreatedDate,
+                                             NguoiThem = ur.FullName,
+                                             Price = kh.Price,
+
+                                         }).ToList();
+                            var querytg = from b in query
+                                          group b by b.NguoiThem.ToString() into g
+                                          select new DoanhThuTheoThangTheoNamParam
+                                          {
+                                              FullName = g.Key,
+                                              TongDoanhThu = g.Sum(x => x.Price),
+                                          };
+                            return querytg.ToList();
+
+                        }
+                    }
+                    else
+                    {
+                        if (tg.NguoiQuanLy == null || tg.NguoiQuanLy == "" || tg.NguoiQuanLy == string.Empty)
+                        {
+
+                            var temp = await db.Users.Where(x => x.NguoiQuanLy == tg.UserId).ToListAsync();
+                            if (temp != null)
+                            {
+
+                                var query = (from kh in db.Cards
+                                             join ur in db.Users on kh.CreatedBy equals ur.UserId
+                                             where ur.UserId == Id || ur.NguoiQuanLy == Id
+                                             where ur.Status == true && (kh.CreatedDate.Value.Year == model.Year) && (kh.CreatedDate.Value.Month == model.Month)
+                                             select new CardViewModel
+                                             {
+                                                 Id = kh.Id,
+                                                 CreatedBy = kh.CreatedBy,
+                                                 CreatedDate = kh.CreatedDate,
+                                                 NguoiThem = ur.FullName,
+                                                 Price = kh.Price,
+
+                                             }).ToList();
+                                var querytg = from b in query
+                                              group b by b.NguoiThem.ToString() into g
+                                              select new DoanhThuTheoThangTheoNamParam
+                                              {
+                                                  FullName = g.Key,
+                                                  TongDoanhThu = g.Sum(x => x.Price),
+                                              };
+                                return querytg.ToList();
+                            }
+                            else
+                            {
+                                var query = (from kh in db.Cards
+                                             join ur in db.Users on kh.CreatedBy equals ur.UserId
+                                             where kh.CreatedBy == Id
+                                             where ur.Status == true && (kh.CreatedDate.Value.Year == model.Year) && (kh.CreatedDate.Value.Month == model.Month)
+                                             select new CardViewModel
+                                             {
+                                                 Id = kh.Id,
+                                                 CreatedBy = kh.CreatedBy,
+                                                 CreatedDate = kh.CreatedDate,
+                                                 NguoiThem = ur.FullName,
+                                                 Price = kh.Price,
+
+                                             }).ToList();
+                                var querytg = from b in query
+                                              group b by b.NguoiThem.ToString() into g
+                                              select new DoanhThuTheoThangTheoNamParam
+                                              {
+                                                  FullName = g.Key,
+                                                  TongDoanhThu = g.Sum(x => x.Price),
+                                              };
+                                return querytg.ToList();
+                            }
+                        }
+                        else
+                        {
+                            var test = new User();
+                            test = await db.Users.FindAsync(tg.NguoiQuanLy);
+                            if (test.RoleId == "BLD" || test.RoleId == "ADMIN")
+                            {
+                                var temp = await db.Users.Where(x => x.NguoiQuanLy == tg.UserId).ToListAsync();
+                                if (temp != null)
+                                {
 
 
+                                    var query = (from kh in db.Cards
+                                                 join ur in db.Users on kh.CreatedBy equals ur.UserId
+                                                 where ur.Status == true && (kh.CreatedDate.Value.Year == model.Year) && (kh.CreatedDate.Value.Month == model.Month)
+                                                 where ur.NguoiQuanLy == Id || ur.UserId == Id
+                                                 select new CardViewModel
+                                                 {
+                                                     Id = kh.Id,
+                                                     CreatedBy = kh.CreatedBy,
+                                                     CreatedDate = kh.CreatedDate,
+                                                     NguoiThem = ur.FullName,
+                                                     Price = kh.Price,
+
+                                                 }).ToList();
+                                    var querytg = from b in query
+                                                  group b by b.NguoiThem.ToString() into g
+                                                  select new DoanhThuTheoThangTheoNamParam
+                                                  {
+                                                      FullName = g.Key,
+                                                      TongDoanhThu = g.Sum(x => x.Price),
+                                                  };
+
+                                }
+                                else
+                                {
+                                    var query = (from kh in db.Cards
+                                                 join ur in db.Users on kh.CreatedBy equals ur.UserId
+                                                 where kh.CreatedBy == Id
+                                                 where ur.Status == true && (kh.CreatedDate.Value.Year == model.Year) && (kh.CreatedDate.Value.Month == model.Month)
+                                                 select new CardViewModel
+                                                 {
+                                                     Id = kh.Id,
+                                                     CreatedBy = kh.CreatedBy,
+                                                     CreatedDate = kh.CreatedDate,
+                                                     NguoiThem = ur.FullName,
+                                                     Price = kh.Price,
+
+                                                 }).ToList();
+                                    var querytg = from b in query
+                                                  group b by b.NguoiThem.ToString() into g
+                                                  select new DoanhThuTheoThangTheoNamParam
+                                                  {
+                                                      FullName = g.Key,
+                                                      TongDoanhThu = g.Sum(x => x.Price),
+                                                  };
+                                    return querytg.ToList();
+                                }
+                            }
+                            else
+                            {
+                                var query = (from kh in db.Cards
+                                             join ur in db.Users on kh.CreatedBy equals ur.UserId
+                                             where kh.CreatedBy == Id
+                                             where ur.Status == true && (kh.CreatedDate.Value.Year == model.Year) && (kh.CreatedDate.Value.Month == model.Month)
+                                             select new CardViewModel
+                                             {
+                                                 Id = kh.Id,
+                                                 CreatedBy = kh.CreatedBy,
+                                                 CreatedDate = kh.CreatedDate,
+                                                 NguoiThem = ur.FullName,
+                                                 Price = kh.Price,
+
+                                             }).ToList();
+                                var querytg = from b in query
+                                              group b by b.NguoiThem.ToString() into g
+                                              select new DoanhThuTheoThangTheoNamParam
+                                              {
+                                                  FullName = g.Key,
+                                                  TongDoanhThu = g.Sum(x => x.Price),
+                                              };
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+            return null;
+        }
     }
 }
 

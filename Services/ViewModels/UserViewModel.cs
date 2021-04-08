@@ -34,5 +34,6 @@ namespace Services.ViewModels
         public string RoleName { get; set; }
         public string PhongName { get; set; }
         public int? SoLuongKhachHang { get; set; }
+        public int? SoLuongTheTap { get; set; }
     }
 }

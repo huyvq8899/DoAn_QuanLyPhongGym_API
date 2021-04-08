@@ -1,4 +1,5 @@
 ﻿using ManagementServices.Helper;
+using Services.Helper;
 using Services.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -16,5 +17,6 @@ namespace Services.Repositories.Interfaces
         Task<string> ExportExcelAsync(PagingParams pagingParams, string selectedId);
         Task GetById(string id);
         Task<bool> CheckTrungMa(string CardCode);
+        Task<IList<DoanhThuTheoThangTheoNamParam>> GetDoanhThu(DoanhThuTheoThangTheoNamParam model, string Id, string selectedId);
     }
 }
