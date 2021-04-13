@@ -4,10 +4,12 @@ using DLL.Entity;
 using ManagementServices.Helper;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using OfficeOpenXml;
 using Services.Helper;
+using Services.Hubs;
 using Services.Repositories.Interfaces;
 using Services.ViewModels;
 using System;
@@ -22,16 +24,18 @@ namespace Services.Repositories.Implimentations
     {
         Datacontext db;
         IMapper mp;
+        private readonly IHubContext<SignalRHub> _hubContext;
         private readonly IHostingEnvironment _hostingEnvironment;
         IHttpContextAccessor _IHttpContextAccessor;
         IConfiguration _IConfiguration;
-        public CardRespositories(Datacontext datacontext, IMapper mapper, IHostingEnvironment IHostingEnvironment, IHttpContextAccessor IHttpContextAccessor, IConfiguration IConfiguration)
+        public CardRespositories(Datacontext datacontext, IMapper mapper, IHostingEnvironment IHostingEnvironment, IHttpContextAccessor IHttpContextAccessor, IConfiguration IConfiguration, IHubContext<SignalRHub> hubContext)
         {
             this.db = datacontext;
             this.mp = mapper;
             _hostingEnvironment = IHostingEnvironment;
             _IHttpContextAccessor = IHttpContextAccessor;
             _IConfiguration = IConfiguration;
+            _hubContext = hubContext;
         }
         public async Task<int> Delete(Guid Id)
         {
@@ -80,13 +84,40 @@ namespace Services.Repositories.Implimentations
             model.FacilityId = model.FacilityId;
             model.ServiceId = model.ServiceId;
             model.Price = model.Price;
-            model.Note = model.Note;     
+            model.Note = model.Note;
             model.FromDate = model.FromDate;
             model.ToDate = Convert.ToDateTime(model.FromDate).Date.AddDays(30);
             model.CreatedDate = DateTime.Now;
             model.CreatedBy = model.CreatedBy;
             var entity = mp.Map<Card>(model);
             await db.Cards.AddAsync(entity);
+            var rs = await db.SaveChangesAsync();
+            User currentUser = await db.Users
+               .AsNoTracking()
+               .Include(x => x.Role)
+               .FirstOrDefaultAsync(x => x.UserId == model.CreatedBy);
+            var tmp = new NotificationViewModel();
+            tmp.CardId = Convert.ToString(model.Id);
+            tmp.NotificationId = Guid.NewGuid().ToString();
+            tmp.Link = model.CreatedBy;
+            tmp.NotificationName = "Tấm chiếu mới";
+            tmp.Content = "Tấm chiếu mới";
+            tmp.Type = 2;
+            await InsertNotice(tmp);
+            await _hubContext.Clients.All.SendAsync("Notify", tmp.Content);
+            // thanh cong 1, o loi
+            return rs;
+        }
+        public async Task<int> InsertNotice(NotificationViewModel model)
+        {
+            model.NotificationId = Guid.NewGuid().ToString();
+            var entity = mp.Map<Notification>(model);
+            entity.View = false;
+            entity.Read = false;
+            entity.CreatedDate = DateTime.Now;
+            entity.ModifiedDate = entity.CreatedDate;
+            entity.ModifiedBy = entity.CreatedBy;
+            await db.Notifications.AddAsync(entity);
             var rs = await db.SaveChangesAsync();
             // thanh cong 1, o loi
             return rs;
@@ -132,22 +163,22 @@ namespace Services.Repositories.Implimentations
                                 {
                                     Id = cr.Id,
                                     CardCode = cr.CardCode,
-                                    CardTypeId=cr.CardTypeId,
-                                    CustomerId=cr.CustomerId,
+                                    CardTypeId = cr.CardTypeId,
+                                    CustomerId = cr.CustomerId,
                                     CustomerCode = ct.CustomerCode,
                                     CustomerName = ct.CustomerName,
                                     Address = ct.Address,
                                     NumberPhone = ct.NumberPhone,
                                     NameType = cp.NameType,
                                     FacilityName = fc.FacilityName,
-                                    FacilityId=cr.FacilityId,
+                                    FacilityId = cr.FacilityId,
                                     ServiceName = sv.ServiceName,
                                     ServiceId = cr.ServiceId,
                                     Money = sv.Money,
                                     Price = cr.Price,
                                     ToDate = cr.ToDate,
                                     FromDate = cr.FromDate,
-                                    CreatedBy=cr.CreatedBy,
+                                    CreatedBy = cr.CreatedBy,
                                     ToDateName = cr.ToDate.HasValue ? cr.ToDate.Value.ToString("dd/MM/yyyy") : "",
                                     FromDateName = cr.FromDate.HasValue ? cr.FromDate.Value.ToString("dd/MM/yyyy") : "",
                                     NguoiThem = us.FullName,
@@ -380,12 +411,12 @@ namespace Services.Repositories.Implimentations
                     }
                 }
                 //het han the tap k hien
-/*                if (!string.IsNullOrEmpty(pagingParams.fromDate) && !string.IsNullOrEmpty(pagingParams.toDate))
-                {
-                    DateTime fromDate = DateTime.Parse(pagingParams.fromDate);
-                    DateTime toDate = DateTime.Parse(pagingParams.toDate);
-                    query = query.Where(x => (x.CreatedDate) >= fromDate.Date && (x.CreatedDate) <= toDate.Date.AddDays(1));
-                }*/
+                /*                if (!string.IsNullOrEmpty(pagingParams.fromDate) && !string.IsNullOrEmpty(pagingParams.toDate))
+                                {
+                                    DateTime fromDate = DateTime.Parse(pagingParams.fromDate);
+                                    DateTime toDate = DateTime.Parse(pagingParams.toDate);
+                                    query = query.Where(x => (x.CreatedDate) >= fromDate.Date && (x.CreatedDate) <= toDate.Date.AddDays(1));
+                                }*/
                 if (!string.IsNullOrEmpty(pagingParams.SortKey))
                 {
                     if (pagingParams.SortKey == "cardCode" && pagingParams.SortValue == "ascend")
@@ -525,12 +556,12 @@ namespace Services.Repositories.Implimentations
             //    DateTime toDate = DateTime.Parse(pagingParams.toDate);
             //    query = query.Where(x => DateTime.Parse(x.NgayLap) >= fromDate && DateTime.Parse(x.NgayLap) <= toDate);
             //}
-           /* if (!string.IsNullOrEmpty(pagingParams.fromDate) && !string.IsNullOrEmpty(pagingParams.toDate))
-            {
-                DateTime fromDate = DateTime.Parse(pagingParams.fromDate);
-                DateTime toDate = DateTime.Parse(pagingParams.toDate);
-                query = query.Where(x => (x.CreatedDate >= fromDate && x.CreatedDate <= toDate.AddDays(1)));
-            }*/
+            /* if (!string.IsNullOrEmpty(pagingParams.fromDate) && !string.IsNullOrEmpty(pagingParams.toDate))
+             {
+                 DateTime fromDate = DateTime.Parse(pagingParams.fromDate);
+                 DateTime toDate = DateTime.Parse(pagingParams.toDate);
+                 query = query.Where(x => (x.CreatedDate >= fromDate && x.CreatedDate <= toDate.AddDays(1)));
+             }*/
             if (!string.IsNullOrEmpty(pagingParams.userId))
             {
                 if (currentUser.Role.RoleId != "ADMIN" && currentUser.Role.RoleId != "BLD")

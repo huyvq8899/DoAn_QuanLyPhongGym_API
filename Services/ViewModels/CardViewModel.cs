@@ -36,5 +36,6 @@ namespace Services.ViewModels
         public decimal Money { get; set; }
         public decimal TongDoanhThu { get; set; }
         public string FullName { get; internal set; }
+        public int? BLD { get; internal set; }
     }
 }
