@@ -24,7 +24,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Folder Include="MyFile\uploaded\sample\" />
 		<Folder Include="Services\" />
 		<Folder Include="wwwroot\Samples\Docs\" />
 	</ItemGroup>

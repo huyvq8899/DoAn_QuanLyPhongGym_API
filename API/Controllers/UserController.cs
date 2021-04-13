@@ -206,17 +206,37 @@ namespace API.Controllers
             var result = await _IUserRespositories.GetBySoLuong(pagingParams);
             return Ok(result);
         }
+        [HttpGet("GetByDoanhThu")]
+        public async Task<IActionResult> GetByDoanhThu([FromQuery] PagingParams pagingParams)
+        {
+            var result = await _IUserRespositories.GetByDoanhThu(pagingParams);
+            return Ok(result);
+        }
         [HttpGet("GetBySoLuongCard")]
         public async Task<IActionResult> GetBySoLuongCard([FromQuery] PagingParams pagingParams)
         {
             var result = await _IUserRespositories.GetSoLuongCard(pagingParams);
             return Ok(result);
         }
-        [AllowAnonymous]
+       [AllowAnonymous]
         [HttpGet("ExportExcelBaoCao")]
         public async Task<IActionResult> ExportExcelBaoCao([FromQuery] PagingParams pagingParams)
         {
             var base64String = await _IUserRespositories.ExportExcelBaoCaoAsync(pagingParams);
+            return Ok(new { base64String = base64String });
+        }
+        [AllowAnonymous]
+        [HttpGet("ExportExcelThongKeTheTap")]
+        public async Task<IActionResult> ExportExcelThongKeTheTapAsync([FromQuery] PagingParams pagingParams)
+        {
+            var base64String = await _IUserRespositories.ExportExcelThongKeTheTapAsync(pagingParams);
+            return Ok(new { base64String = base64String });
+        }
+        [AllowAnonymous]
+        [HttpGet("ExportExcelThongKeDoanhThu")]
+        public async Task<IActionResult> ExportExcelThongKeDoanhThuAsync([FromQuery] PagingParams pagingParams)
+        {
+            var base64String = await _IUserRespositories.ExportExcelThongKeDoanhThuAsync(pagingParams);
             return Ok(new { base64String = base64String });
         }
         [HttpGet("GetYears")]

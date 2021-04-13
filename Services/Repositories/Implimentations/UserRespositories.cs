@@ -1675,6 +1675,497 @@ namespace Services.Repositories.Implimentations
                 return base64String;
             }
         }
+        public async Task<string> ExportExcelThongKeTheTapAsync(PagingParams pagingParams)
+        {
+            var query = from ur in db.Users
+                        join dt in db.Cards on ur.UserId equals dt.CreatedBy
+                      /*  where ur.Status == true && dt.CreatedDate >= DateTime.Parse(pagingParams.fromDate)
+                        && dt.CreatedDate <= DateTime.Parse(pagingParams.toDate).AddDays(1)*/
+                        group ur by ur.UserId into userGroup
+                        select new UserViewModel
+                        {
+                            FullName = userGroup.Select(m => m.FullName).FirstOrDefault(),
+                            SoLuongTheTap = userGroup.Count(),
+                        };
+            var tg = new User();
+            tg = await db.Users.FindAsync(pagingParams.userId);
+            if (tg.NguoiQuanLy == null || tg.NguoiQuanLy == "" || tg.NguoiQuanLy == string.Empty)
+            {
+                if (tg.RoleId == "BLD" || tg.RoleId == "ADMIN")
+                {
+                    if (!string.IsNullOrEmpty(pagingParams.fromDate) && !string.IsNullOrEmpty(pagingParams.toDate))
+                    {
+                        query = from ur in db.Users
+                                join dt in db.Cards on ur.UserId equals dt.CreatedBy
+                                /*where ur.Status == true && dt.CreatedDate >= DateTime.Parse(pagingParams.fromDate)
+                                && dt.CreatedDate <= DateTime.Parse(pagingParams.toDate).AddDays(1)*/
+                                group ur by ur.UserId into userGroup
+                                select new UserViewModel
+                                {
+                                    FullName = userGroup.Select(m => m.FullName).FirstOrDefault(),
+                                    SoLuongTheTap = userGroup.Count(),
+                                };
+                    }
+                    else
+                    {
+                        query = from ur in db.Users
+                                join dt in db.Cards on ur.UserId equals dt.CreatedBy
+                               /* where ur.Status == true*/
+                                group ur by ur.UserId into userGroup
+                                select new UserViewModel
+                                {
+                                    FullName = userGroup.Select(m => m.FullName).FirstOrDefault(),
+                                    SoLuongTheTap = userGroup.Count(),
+                                };
+                    }
+
+                }
+                else
+                {
+                    if (!string.IsNullOrEmpty(pagingParams.fromDate) && !string.IsNullOrEmpty(pagingParams.toDate))
+                    {
+                        query = from ur in db.Users
+                                join dt in db.Cards on ur.UserId equals dt.CreatedBy
+                               /* where ur.Status == true && dt.CreatedDate >= DateTime.Parse(pagingParams.fromDate)
+                                && dt.CreatedDate <= DateTime.Parse(pagingParams.toDate).AddDays(1)*/
+                                where ur.NguoiQuanLy == pagingParams.userId || ur.UserId == pagingParams.userId
+                                group ur by ur.UserId into userGroup
+                                select new UserViewModel
+                                {
+                                    FullName = userGroup.Select(m => m.FullName).FirstOrDefault(),
+                                    SoLuongTheTap = userGroup.Count(),
+                                };
+                    }
+                    else
+                    {
+                        query = from ur in db.Users
+                                join dt in db.Cards on ur.UserId equals dt.CreatedBy
+                             /*   where ur.Status == true*/
+                                where ur.NguoiQuanLy == pagingParams.userId || ur.UserId == pagingParams.userId
+                                group ur by ur.UserId into userGroup
+                                select new UserViewModel
+                                {
+                                    FullName = userGroup.Select(m => m.FullName).FirstOrDefault(),
+                                    SoLuongTheTap = userGroup.Count(),
+                                };
+                    }
+
+                }
+            }
+            else
+            {
+                tg = await db.Users.FindAsync(tg.NguoiQuanLy);
+                {
+                    if (tg.RoleId == "BLD" || tg.RoleId == "ADMIN")
+                    {
+                        if (!string.IsNullOrEmpty(pagingParams.fromDate) && !string.IsNullOrEmpty(pagingParams.toDate))
+                        {
+                            query = from ur in db.Users
+                                    join dt in db.Cards on ur.UserId equals dt.CreatedBy
+                                  /*  where ur.Status == true && dt.CreatedDate >= DateTime.Parse(pagingParams.fromDate)
+                                    && dt.CreatedDate <= DateTime.Parse(pagingParams.toDate).AddDays(1)*/
+                                    where ur.NguoiQuanLy == pagingParams.userId || ur.UserId == pagingParams.userId
+                                    group ur by ur.UserId into userGroup
+                                    select new UserViewModel
+                                    {
+                                        FullName = userGroup.Select(m => m.FullName).FirstOrDefault(),
+                                        SoLuongTheTap = userGroup.Count(),
+                                    };
+                        }
+                        else
+                        {
+                            query = from ur in db.Users
+                                    join dt in db.Cards on ur.UserId equals dt.CreatedBy
+                                   /* where ur.Status == true*/
+                                    where ur.NguoiQuanLy == pagingParams.userId || ur.UserId == pagingParams.userId
+                                    group ur by ur.UserId into userGroup
+                                    select new UserViewModel
+                                    {
+                                        FullName = userGroup.Select(m => m.FullName).FirstOrDefault(),
+                                        SoLuongTheTap = userGroup.Count(),
+                                    };
+                        }
+
+                    }
+                    else
+                    {
+                        if (!string.IsNullOrEmpty(pagingParams.fromDate) && !string.IsNullOrEmpty(pagingParams.toDate))
+                        {
+                            query = from ur in db.Users
+                                    join dt in db.Cards on ur.UserId equals dt.CreatedBy
+                                   /* where ur.Status == true && dt.CreatedDate >= DateTime.Parse(pagingParams.fromDate)
+                                    && dt.CreatedDate <= DateTime.Parse(pagingParams.toDate).AddDays(1)*/
+                                    where ur.UserId == pagingParams.userId
+                                    group ur by ur.UserId into userGroup
+                                    select new UserViewModel
+                                    {
+                                        FullName = userGroup.Select(m => m.FullName).FirstOrDefault(),
+                                        SoLuongTheTap = userGroup.Count(),
+                                    };
+                        }
+                        else
+                        {
+                            query = from ur in db.Users
+                                    join dt in db.Cards on ur.UserId equals dt.CreatedBy
+                                   /* where ur.Status == true*/
+                                    where ur.UserId == pagingParams.userId
+                                    group ur by ur.UserId into userGroup
+                                    select new UserViewModel
+                                    {
+                                        FullName = userGroup.Select(m => m.FullName).FirstOrDefault(),
+                                        SoLuongTheTap = userGroup.Count(),
+                                    };
+                        }
+                    }
+                }
+            }
+
+
+            string _path_sample = Path.Combine(_hostingEnvironment.ContentRootPath, $"MyFile/uploaded/sample/Thong_ke_the_tap.xlsx");
+            string desFileName = Guid.NewGuid() + ".xlsx";
+            string desFilePath = Path.Combine(_hostingEnvironment.ContentRootPath, $"MyFile/uploaded/excels/{desFileName}");
+            string uploadFolder = Path.Combine(_hostingEnvironment.ContentRootPath, "MyFile/uploaded/excels");
+            if (!Directory.Exists(uploadFolder))
+            {
+                Directory.CreateDirectory(uploadFolder);
+            }
+
+            // Excel
+            FileInfo file = new FileInfo(_path_sample);
+            string dateReport = string.Format("Thống kê số lượng thẻ tập đã thêm (Từ ngày {0} đến ngày {1})",
+                string.IsNullOrEmpty(pagingParams.fromDate) ? string.Empty : DateTime.Parse(pagingParams.fromDate).ToString("dd/MM/yyyy"),
+                string.IsNullOrEmpty(pagingParams.toDate) ? string.Empty : DateTime.Parse(pagingParams.toDate).ToString("dd/MM/yyyy"));
+
+            using (ExcelPackage package = new ExcelPackage(file))
+            {
+                List<UserViewModel> list = query.ToList();
+                // Open sheet1
+                int totalRows = list.Count;
+
+                // Begin row
+                int begin_row = 3;
+
+                // Open sheet1
+                ExcelWorksheet worksheet = package.Workbook.Worksheets[0];
+
+                // Add Row
+                worksheet.InsertRow(begin_row + 1, totalRows - 1, begin_row);
+
+                // Fill data
+                int idx = begin_row;
+                for (int i = 0; i < list.Count; i++)
+                {
+                    var it = list[i];
+                    worksheet.Cells[idx, 1].Value = i + 1;
+                    worksheet.Cells[idx, 2].Value = it.FullName;
+                    worksheet.Cells[idx, 3].Value = it.SoLuongTheTap;
+
+                    idx += 1;
+                }
+                worksheet.Cells[1, 1].Value = dateReport.ToUpper();
+                worksheet.Row(1).Style.Font.Italic = true;
+                worksheet.Row(1).Style.Font.Bold = true;
+                worksheet.Cells[string.Format("A{0}:B{0}", idx)].Merge = true;
+                worksheet.Cells[idx, 1].Value = "Tổng số khách hàng đã thêm: ";
+                worksheet.Cells[idx, 3].Value = string.Format("{0}", list.Sum(x => x.SoLuongTheTap));
+                worksheet.Row(idx).Style.Font.Bold = true;
+                Color colFromHex = System.Drawing.ColorTranslator.FromHtml("#BDD7EE");
+                worksheet.Cells[string.Format("A{0}:C{0}", idx)].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                worksheet.Cells[string.Format("A{0}:C{0}", idx)].Style.Fill.BackgroundColor.SetColor(colFromHex);
+                worksheet.Cells[string.Format("A{0}:C{0}", idx)].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+                worksheet.Cells[string.Format("A{0}:C{0}", idx)].Style.Border.Left.Style = ExcelBorderStyle.Thin;
+                worksheet.Cells[idx, 3].Style.Border.Right.Style = ExcelBorderStyle.Thin;
+
+                worksheet.Row(idx).Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                worksheet.Row(idx).Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+
+                package.SaveAs(new FileInfo(desFilePath));
+                Byte[] bytes = File.ReadAllBytes(desFilePath);
+                String base64String = Convert.ToBase64String(bytes);
+
+                if (File.Exists(desFilePath))
+                {
+                    File.Delete(desFilePath);
+                }
+
+                return base64String;
+            }
+        }
+        public async Task<string> ExportExcelThongKeDoanhThuAsync(PagingParams pagingParams)
+        {
+             var query = (from cr in db.Cards
+                                     join ur in db.Users on cr.CreatedBy equals ur.UserId
+                                     /*where ur.Status == true && dt.CreatedDate >= DateTime.Parse(pagingParams.fromDate)
+                                     && dt.CreatedDate <= DateTime.Parse(pagingParams.toDate).AddDays(1)*/
+                                     select new CardViewModel
+                                     {
+                                         FullName = ur.FullName,
+                                         Price = cr.Price,
+                                     }).ToList();
+                        var query1 = from dt in query
+                                     group dt by dt.FullName.ToString() into crGroup
+                                     select new DoanhThuTheoThangTheoNamParam
+                                     {
+                                         FullName = crGroup.Key,
+                                         TongDoanhThu = crGroup.Sum(x => x.Price),
+                                     };
+            var tg = new User();
+            tg = await db.Users.FindAsync(pagingParams.userId);
+            if (tg.NguoiQuanLy == null || tg.NguoiQuanLy == "" || tg.NguoiQuanLy == string.Empty)
+            {
+                if (tg.RoleId == "BLD" || tg.RoleId == "ADMIN")
+                {
+                    if (!string.IsNullOrEmpty(pagingParams.fromDate) && !string.IsNullOrEmpty(pagingParams.toDate))
+                    {
+                         query = (from cr in db.Cards
+                                     join ur in db.Users on cr.CreatedBy equals ur.UserId
+                                     /*where ur.Status == true && dt.CreatedDate >= DateTime.Parse(pagingParams.fromDate)
+                                     && dt.CreatedDate <= DateTime.Parse(pagingParams.toDate).AddDays(1)*/
+                                     select new CardViewModel
+                                     {
+                                         FullName = ur.FullName,
+                                         Price = cr.Price,
+                                     }).ToList();
+                         query1 = from dt in query
+                                     group dt by dt.FullName.ToString() into crGroup
+                                     select new DoanhThuTheoThangTheoNamParam
+                                     {
+                                         FullName = crGroup.Key,
+                                         TongDoanhThu = crGroup.Sum(x => x.Price),
+                                     };
+                    }
+                    else
+                    {
+                        query = (from cr in db.Cards
+                                 join ur in db.Users on cr.CreatedBy equals ur.UserId
+                                 /*where ur.Status == true && dt.CreatedDate >= DateTime.Parse(pagingParams.fromDate)
+                                 && dt.CreatedDate <= DateTime.Parse(pagingParams.toDate).AddDays(1)*/
+                                 select new CardViewModel
+                                 {
+                                     FullName = ur.FullName,
+                                     Price = cr.Price,
+                                 }).ToList();
+                        query1 = from dt in query
+                                 group dt by dt.FullName.ToString() into crGroup
+                                 select new DoanhThuTheoThangTheoNamParam
+                                 {
+                                     FullName = crGroup.Key,
+                                     TongDoanhThu = crGroup.Sum(x => x.Price),
+                                 };
+                    }
+
+                }
+                else
+                {
+                    if (!string.IsNullOrEmpty(pagingParams.fromDate) && !string.IsNullOrEmpty(pagingParams.toDate))
+                    {
+                        query = (from cr in db.Cards
+                                 join ur in db.Users on cr.CreatedBy equals ur.UserId
+                                 where ur.NguoiQuanLy == pagingParams.userId || ur.UserId == pagingParams.userId
+                                 /*where ur.Status == true && dt.CreatedDate >= DateTime.Parse(pagingParams.fromDate)
+                                 && dt.CreatedDate <= DateTime.Parse(pagingParams.toDate).AddDays(1)*/
+                                 select new CardViewModel
+                                 {
+                                     FullName = ur.FullName,
+                                     Price = cr.Price,
+                                 }).ToList();
+                        query1 = from dt in query
+                                 group dt by dt.FullName.ToString() into crGroup
+                                 select new DoanhThuTheoThangTheoNamParam
+                                 {
+                                     FullName = crGroup.Key,
+                                     TongDoanhThu = crGroup.Sum(x => x.Price),
+                                 };
+                    }
+                    else
+                    {
+                        query = (from cr in db.Cards
+                                 join ur in db.Users on cr.CreatedBy equals ur.UserId
+                                 where ur.NguoiQuanLy == pagingParams.userId || ur.UserId == pagingParams.userId
+                                 /*where ur.Status == true && dt.CreatedDate >= DateTime.Parse(pagingParams.fromDate)
+                                 && dt.CreatedDate <= DateTime.Parse(pagingParams.toDate).AddDays(1)*/
+                                 select new CardViewModel
+                                 {
+                                     FullName = ur.FullName,
+                                     Price = cr.Price,
+                                 }).ToList();
+                        query1 = from dt in query
+                                 group dt by dt.FullName.ToString() into crGroup
+                                 select new DoanhThuTheoThangTheoNamParam
+                                 {
+                                     FullName = crGroup.Key,
+                                     TongDoanhThu = crGroup.Sum(x => x.Price),
+                                 };
+                    }
+
+                }
+            }
+            else
+            {
+                tg = await db.Users.FindAsync(tg.NguoiQuanLy);
+                {
+                    if (tg.RoleId == "BLD" || tg.RoleId == "ADMIN")
+                    {
+                        if (!string.IsNullOrEmpty(pagingParams.fromDate) && !string.IsNullOrEmpty(pagingParams.toDate))
+                        {
+                            query = (from cr in db.Cards
+                                     join ur in db.Users on cr.CreatedBy equals ur.UserId  
+                                     where ur.NguoiQuanLy == pagingParams.userId || ur.UserId == pagingParams.userId
+                                     /*where ur.Status == true && dt.CreatedDate >= DateTime.Parse(pagingParams.fromDate)
+                                     && dt.CreatedDate <= DateTime.Parse(pagingParams.toDate).AddDays(1)*/
+                                     select new CardViewModel
+                                     {
+                                         FullName = ur.FullName,
+                                         Price = cr.Price,
+                                     }).ToList();
+                            query1 = from dt in query
+                                     group dt by dt.FullName.ToString() into crGroup
+                                     select new DoanhThuTheoThangTheoNamParam
+                                     {
+                                         FullName = crGroup.Key,
+                                         TongDoanhThu = crGroup.Sum(x => x.Price),
+                                     };
+                        }
+                        else
+                        {
+                            query = (from cr in db.Cards
+                                     join ur in db.Users on cr.CreatedBy equals ur.UserId 
+                                     where ur.NguoiQuanLy == pagingParams.userId || ur.UserId == pagingParams.userId
+                                     /*where ur.Status == true && dt.CreatedDate >= DateTime.Parse(pagingParams.fromDate)
+                                     && dt.CreatedDate <= DateTime.Parse(pagingParams.toDate).AddDays(1)*/
+                                     select new CardViewModel
+                                     {
+                                         FullName = ur.FullName,
+                                         Price = cr.Price,
+                                     }).ToList();
+                            query1 = from dt in query
+                                     group dt by dt.FullName.ToString() into crGroup
+                                     select new DoanhThuTheoThangTheoNamParam
+                                     {
+                                         FullName = crGroup.Key,
+                                         TongDoanhThu = crGroup.Sum(x => x.Price),
+                                     };
+                        }
+
+                    }
+                    else
+                    {
+                        if (!string.IsNullOrEmpty(pagingParams.fromDate) && !string.IsNullOrEmpty(pagingParams.toDate))
+                        {
+                            query = (from cr in db.Cards
+                                     join ur in db.Users on cr.CreatedBy equals ur.UserId 
+                                     where ur.UserId == pagingParams.userId
+                                     /*where ur.Status == true && dt.CreatedDate >= DateTime.Parse(pagingParams.fromDate)
+                                     && dt.CreatedDate <= DateTime.Parse(pagingParams.toDate).AddDays(1)*/
+                                     select new CardViewModel
+                                     {
+                                         FullName = ur.FullName,
+                                         Price = cr.Price,
+                                     }).ToList();
+                            query1 = from dt in query
+                                     group dt by dt.FullName.ToString() into crGroup
+                                     select new DoanhThuTheoThangTheoNamParam
+                                     {
+                                         FullName = crGroup.Key,
+                                         TongDoanhThu = crGroup.Sum(x => x.Price),
+                                     };
+                        }
+                        else
+                        {
+                            query = (from cr in db.Cards
+                                 join ur in db.Users on cr.CreatedBy equals ur.UserId
+                                     where ur.UserId == pagingParams.userId
+                                 /*where ur.Status == true && dt.CreatedDate >= DateTime.Parse(pagingParams.fromDate)
+                                 && dt.CreatedDate <= DateTime.Parse(pagingParams.toDate).AddDays(1)*/
+                                 select new CardViewModel
+                                 {
+                                     FullName = ur.FullName,
+                                     Price = cr.Price,
+                                 }).ToList();
+                        query1 = from dt in query
+                                 group dt by dt.FullName.ToString() into crGroup
+                                 select new DoanhThuTheoThangTheoNamParam
+                                 {
+                                     FullName = crGroup.Key,
+                                     TongDoanhThu = crGroup.Sum(x => x.Price),
+                                 };
+                        }
+                    }
+                }
+            }
+
+
+            string _path_sample = Path.Combine(_hostingEnvironment.ContentRootPath, $"MyFile/uploaded/sample/Thong_ke_the_tap.xlsx");
+            string desFileName = Guid.NewGuid() + ".xlsx";
+            string desFilePath = Path.Combine(_hostingEnvironment.ContentRootPath, $"MyFile/uploaded/excels/{desFileName}");
+            string uploadFolder = Path.Combine(_hostingEnvironment.ContentRootPath, "MyFile/uploaded/excels");
+            if (!Directory.Exists(uploadFolder))
+            {
+                Directory.CreateDirectory(uploadFolder);
+            }
+
+            // Excel
+            FileInfo file = new FileInfo(_path_sample);
+            string dateReport = string.Format("Thống kê doanh thu (Từ ngày {0} đến ngày {1})",
+                string.IsNullOrEmpty(pagingParams.fromDate) ? string.Empty : DateTime.Parse(pagingParams.fromDate).ToString("dd/MM/yyyy"),
+                string.IsNullOrEmpty(pagingParams.toDate) ? string.Empty : DateTime.Parse(pagingParams.toDate).ToString("dd/MM/yyyy"));
+
+            using (ExcelPackage package = new ExcelPackage(file))
+            {
+                List<DoanhThuTheoThangTheoNamParam> list = query1.ToList();
+                // Open sheet1
+                int totalRows = list.Count;
+
+                // Begin row
+                int begin_row = 3;
+
+                // Open sheet1
+                ExcelWorksheet worksheet = package.Workbook.Worksheets[0];
+
+                // Add Row
+                worksheet.InsertRow(begin_row + 1, totalRows - 1, begin_row);
+
+                // Fill data
+                int idx = begin_row;
+                for (int i = 0; i < list.Count; i++)
+                {
+                    var it = list[i];
+                    worksheet.Cells[idx, 1].Value = i + 1;
+                    worksheet.Cells[idx, 2].Value = it.FullName;
+                    worksheet.Cells[idx, 3].Value = it.TongDoanhThu;
+
+                    idx += 1;
+                }
+                worksheet.Cells[1, 1].Value = dateReport.ToUpper();
+                worksheet.Row(1).Style.Font.Italic = true;
+                worksheet.Row(1).Style.Font.Bold = true;
+                worksheet.Cells[string.Format("A{0}:B{0}", idx)].Merge = true;
+                worksheet.Cells[idx, 1].Value = "Tổng doanh thu: ";
+                worksheet.Cells[idx, 3].Value = string.Format("{0}", list.Sum(x => x.TongDoanhThu));
+                worksheet.Row(idx).Style.Font.Bold = true;
+                Color colFromHex = System.Drawing.ColorTranslator.FromHtml("#BDD7EE");
+                worksheet.Cells[string.Format("A{0}:C{0}", idx)].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                worksheet.Cells[string.Format("A{0}:C{0}", idx)].Style.Fill.BackgroundColor.SetColor(colFromHex);
+                worksheet.Cells[string.Format("A{0}:C{0}", idx)].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+                worksheet.Cells[string.Format("A{0}:C{0}", idx)].Style.Border.Left.Style = ExcelBorderStyle.Thin;
+                worksheet.Cells[idx, 3].Style.Border.Right.Style = ExcelBorderStyle.Thin;
+
+                worksheet.Row(idx).Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                worksheet.Row(idx).Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+
+                package.SaveAs(new FileInfo(desFilePath));
+                Byte[] bytes = File.ReadAllBytes(desFilePath);
+                String base64String = Convert.ToBase64String(bytes);
+
+                if (File.Exists(desFilePath))
+                {
+                    File.Delete(desFilePath);
+                }
+
+                return base64String;
+            }
+        }
+
 
         public async Task<IList<int>> GetYears()
         {

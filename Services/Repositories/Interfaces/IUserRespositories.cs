@@ -38,7 +38,11 @@ namespace Services.Repositories.Interfaces
         Task<List<UserViewModel>> GetAllActiveByUser(string Id);
         Task<List<UserViewModel>> GetBySoLuong(PagingParams pagingParams);
         Task<List<UserViewModel>> GetSoLuongCard(PagingParams pagingParams);
+        Task<List<DoanhThuTheoThangTheoNamParam>> GetByDoanhThu(PagingParams pagingParams);
+
         Task<string> ExportExcelBaoCaoAsync(PagingParams pagingParams);
+        Task<string> ExportExcelThongKeTheTapAsync(PagingParams pagingParams);
+        Task<string> ExportExcelThongKeDoanhThuAsync(PagingParams pagingParams);
 
         Task<IList<int>> GetYears();
         Task<IList<int>> GetAddKHMonths();
