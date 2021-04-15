@@ -52,6 +52,7 @@ namespace Services.Repositories.Implimentations
                         join fc in db.Facilities on cr.FacilityId equals fc.Id
                         join cp in db.CardTypes on cr.CardTypeId equals cp.Id
                         join sv in db.Services on cr.ServiceId equals sv.Id
+                        orderby cr.CreatedDate descending
                         select new CardViewModel
                         {
                             Id = cr.Id,
@@ -77,6 +78,46 @@ namespace Services.Repositories.Implimentations
 
         public async Task<int> Insert(int TN, CardViewModel model)
         {
+            if(model.ServiceId== "a583b009-58e8-412f-bf9c-476003a7cadc")
+            {
+                model.ToDate = Convert.ToDateTime(model.FromDate).Date.AddDays(1);
+            }
+            if (model.ServiceId == "4183ea2a-fe73-4301-ad91-efa576749778")
+            {
+                model.ToDate = Convert.ToDateTime(model.FromDate).Date.AddDays(7);
+            }
+            if (model.ServiceId == "889e3bba-560a-4633-9a5e-ba26a283ce3b")
+            {
+                model.ToDate = Convert.ToDateTime(model.FromDate).Date.AddDays(30);
+            }
+            if (model.ServiceId == "502d3e88-b0c2-47e3-b171-b9278f7b7200")
+            {
+                model.ToDate = Convert.ToDateTime(model.FromDate).Date.AddDays(30);
+            }
+            if (model.ServiceId == "2fed1699-a05f-46e4-b7bd-ad7eda85e30e")
+            {
+                model.ToDate = Convert.ToDateTime(model.FromDate).Date.AddDays(90);
+            }
+            if (model.ServiceId == "afd87f47-30c8-4133-85d9-7020876bcd95")
+            {
+                model.ToDate = Convert.ToDateTime(model.FromDate).Date.AddDays(90);
+            }
+            if (model.ServiceId == "f09c5275-67f6-4035-89d1-dae665ceeafc")
+            {
+                model.ToDate = Convert.ToDateTime(model.FromDate).Date.AddDays(180);
+            }
+            if (model.ServiceId == "0cd50047-1bb0-41d7-9a75-58c5fe2932d3")
+            {
+                model.ToDate = Convert.ToDateTime(model.FromDate).Date.AddDays(180);
+            }
+            if (model.ServiceId == "7c63792e-33b2-460c-a7c0-4343d2afcedc")
+            {
+                model.ToDate = Convert.ToDateTime(model.FromDate).Date.AddDays(366);
+            }
+            if (model.ServiceId == "5bf0385b-d3d4-445e-b715-5c9108dee9a4")
+            {
+                model.ToDate = Convert.ToDateTime(model.FromDate).Date.AddDays(366);
+            }
             model.Id = Guid.NewGuid().ToString();
             model.CardCode = model.CardCode;
             model.CardTypeId = model.CardTypeId;
@@ -86,7 +127,7 @@ namespace Services.Repositories.Implimentations
             model.Price = model.Price;
             model.Note = model.Note;
             model.FromDate = model.FromDate;
-            model.ToDate = Convert.ToDateTime(model.FromDate).Date.AddDays(30);
+          
             model.CreatedDate = DateTime.Now;
             model.CreatedBy = model.CreatedBy;
             var entity = mp.Map<Card>(model);
@@ -100,8 +141,8 @@ namespace Services.Repositories.Implimentations
             tmp.CardId = Convert.ToString(model.Id);
             tmp.NotificationId = Guid.NewGuid().ToString();
             tmp.Link = model.CreatedBy;
-            tmp.NotificationName = "Tấm chiếu mới";
-            tmp.Content = "Tấm chiếu mới";
+            tmp.NotificationName = "Khách hàng mới";
+            tmp.Content = "ADMIN";
             tmp.Type = 2;
             await InsertNotice(tmp);
             await _hubContext.Clients.All.SendAsync("Notify", tmp.Content);
@@ -159,6 +200,7 @@ namespace Services.Repositories.Implimentations
                                 join fc in db.Facilities on cr.FacilityId equals fc.Id
                                 join cp in db.CardTypes on cr.CardTypeId equals cp.Id
                                 join sv in db.Services on cr.ServiceId equals sv.Id
+                                orderby cr.CreatedDate descending
                                 select new CardViewModel
                                 {
                                     Id = cr.Id,
@@ -193,6 +235,8 @@ namespace Services.Repositories.Implimentations
                                 join fc in db.Facilities on cr.FacilityId equals fc.Id
                                 join cp in db.CardTypes on cr.CardTypeId equals cp.Id
                                 join sv in db.Services on cr.ServiceId equals sv.Id
+                                where cr.CreatedBy == selectedId
+                                orderby cr.CreatedDate descending
                                 select new CardViewModel
                                 {
                                     Id = cr.Id,
@@ -236,6 +280,8 @@ namespace Services.Repositories.Implimentations
                                     join fc in db.Facilities on cr.FacilityId equals fc.Id
                                     join cp in db.CardTypes on cr.CardTypeId equals cp.Id
                                     join sv in db.Services on cr.ServiceId equals sv.Id
+                                    where us.NguoiQuanLy == Id || us.UserId == Id
+                                    orderby cr.CreatedDate descending
                                     select new CardViewModel
                                     {
                                         Id = cr.Id,
@@ -270,6 +316,8 @@ namespace Services.Repositories.Implimentations
                                     join fc in db.Facilities on cr.FacilityId equals fc.Id
                                     join cp in db.CardTypes on cr.CardTypeId equals cp.Id
                                     join sv in db.Services on cr.ServiceId equals sv.Id
+                                    where cr.CreatedBy == Id
+                                    orderby cr.CreatedDate descending
                                     select new CardViewModel
                                     {
                                         Id = cr.Id,
@@ -312,6 +360,8 @@ namespace Services.Repositories.Implimentations
                                         join fc in db.Facilities on cr.FacilityId equals fc.Id
                                         join cp in db.CardTypes on cr.CardTypeId equals cp.Id
                                         join sv in db.Services on cr.ServiceId equals sv.Id
+                                        where us.NguoiQuanLy == Id || us.UserId == Id
+                                        orderby cr.CreatedDate descending
                                         select new CardViewModel
                                         {
                                             Id = cr.Id,
@@ -346,6 +396,7 @@ namespace Services.Repositories.Implimentations
                                         join fc in db.Facilities on cr.FacilityId equals fc.Id
                                         join cp in db.CardTypes on cr.CardTypeId equals cp.Id
                                         join sv in db.Services on cr.ServiceId equals sv.Id
+                                        orderby cr.CreatedDate descending
                                         select new CardViewModel
                                         {
                                             Id = cr.Id,
@@ -381,6 +432,7 @@ namespace Services.Repositories.Implimentations
                                     join fc in db.Facilities on cr.FacilityId equals fc.Id
                                     join cp in db.CardTypes on cr.CardTypeId equals cp.Id
                                     join sv in db.Services on cr.ServiceId equals sv.Id
+                                    orderby cr.CreatedDate descending
                                     select new CardViewModel
                                     {
                                         Id = cr.Id,

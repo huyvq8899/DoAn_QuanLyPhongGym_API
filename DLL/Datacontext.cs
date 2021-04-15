@@ -36,6 +36,7 @@ namespace DLL
         public DbSet<KhachHangLog> KhachHangLogs { get; set; }
         public DbSet<Job> Jobs { get; set; }
         public DbSet<Notification> Notifications { get; set; }
+        public DbSet<ThongBao> ThongBaos { get; set; }
 
 
         public virtual DbSet<RetrieveOrderRecord> RetrieveOrderRecords { get; set; }
@@ -54,6 +55,7 @@ namespace DLL
             modelBuilder.AddConfiguration(new ServiceConfiguration());
             modelBuilder.AddConfiguration(new JobConfiguration());
             modelBuilder.AddConfiguration(new NotificationConfiguration());
+            modelBuilder.AddConfiguration(new ThongBaoConfiguration());
             modelBuilder.Entity<RetrieveOrderRecord>()
            .HasKey(o => o.STT);
         }

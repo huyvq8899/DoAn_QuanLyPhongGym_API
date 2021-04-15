@@ -1,17 +1,15 @@
 ﻿using DLL.LogEntity;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Services.ViewModels
 {
-  public class KhachHangLogViewModel : AuditableEntity
+    public class KhachHangLogViewModels : AuditableEntity
     {
         public string Id { get; set; }
         public string CustomerId { get; set; }
         public string TenTruongThayDoi { get; set; }
         public string CustomerCode { get; set; }
         public string CustomerName { get; set; }
+        public string TaxCode { get; set; }
         public string DienGiai { get; set; }
         public string DuLieuCu { get; set; }
         public string DuLieuMoi { get; set; }

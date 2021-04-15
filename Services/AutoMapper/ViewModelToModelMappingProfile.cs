@@ -18,9 +18,10 @@ namespace Services.AutoMapper
             CreateMap<EquipmentViewModel, Equipment>();
             CreateMap<FacilityViewModel, Facility>();
             CreateMap<ServiceViewModel, Service>();
-            CreateMap<KhachHangLogViewModel, KhachHangLog>();
+            CreateMap<KhachHangLogViewModels, KhachHangLog>();
             CreateMap<JobViewModel, Job>();
             CreateMap<NotificationViewModel, Notification>();
+            CreateMap<ThongBaoViewModel, ThongBaoViewModel>();
         }
     }
 }

@@ -940,6 +940,7 @@ namespace Services.Repositories.Implimentations
                                      join ur in db.Users on cr.CreatedBy equals ur.UserId
                                      /*where ur.Status == true && dt.CreatedDate >= DateTime.Parse(pagingParams.fromDate)
                                      && dt.CreatedDate <= DateTime.Parse(pagingParams.toDate).AddDays(1)*/
+                                     where ur.NguoiQuanLy == pagingParams.userId || ur.UserId == pagingParams.userId
                                      select new CardViewModel
                                      {
                                          FullName = ur.FullName,
@@ -963,6 +964,7 @@ namespace Services.Repositories.Implimentations
                     {
                         var query = (from cr in db.Cards
                                      join ur in db.Users on cr.CreatedBy equals ur.UserId
+                                     where ur.NguoiQuanLy == pagingParams.userId || ur.UserId == pagingParams.userId
                                      /*where ur.Status == true && dt.CreatedDate >= DateTime.Parse(pagingParams.fromDate)
                                      && dt.CreatedDate <= DateTime.Parse(pagingParams.toDate).AddDays(1)*/
                                      select new CardViewModel
@@ -984,6 +986,7 @@ namespace Services.Repositories.Implimentations
                     {
                         var query = (from cr in db.Cards
                                      join ur in db.Users on cr.CreatedBy equals ur.UserId
+                                     where ur.NguoiQuanLy == pagingParams.userId || ur.UserId == pagingParams.userId
                                      /*where ur.Status == true && dt.CreatedDate >= DateTime.Parse(pagingParams.fromDate)
                                      && dt.CreatedDate <= DateTime.Parse(pagingParams.toDate).AddDays(1)*/
                                      select new CardViewModel
@@ -1013,6 +1016,7 @@ namespace Services.Repositories.Implimentations
                     {
                         var query = (from cr in db.Cards
                                      join ur in db.Users on cr.CreatedBy equals ur.UserId
+                                     where ur.NguoiQuanLy == pagingParams.userId || ur.UserId == pagingParams.userId
                                      /*where ur.Status == true && dt.CreatedDate >= DateTime.Parse(pagingParams.fromDate)
                                      && dt.CreatedDate <= DateTime.Parse(pagingParams.toDate).AddDays(1)*/
                                      select new CardViewModel
@@ -1059,6 +1063,7 @@ namespace Services.Repositories.Implimentations
                     {
                         var query = (from cr in db.Cards
                                      join ur in db.Users on cr.CreatedBy equals ur.UserId
+                                     where ur.UserId == pagingParams.userId
                                      /*where ur.Status == true && dt.CreatedDate >= DateTime.Parse(pagingParams.fromDate)
                                      && dt.CreatedDate <= DateTime.Parse(pagingParams.toDate).AddDays(1)*/
                                      select new CardViewModel
@@ -1080,6 +1085,7 @@ namespace Services.Repositories.Implimentations
                     {
                         var query = (from cr in db.Cards
                                      join ur in db.Users on cr.CreatedBy equals ur.UserId
+                                     where ur.UserId == pagingParams.userId
                                      /*where ur.Status == true && dt.CreatedDate >= DateTime.Parse(pagingParams.fromDate)
                                      && dt.CreatedDate <= DateTime.Parse(pagingParams.toDate).AddDays(1)*/
                                      select new CardViewModel

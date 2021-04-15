@@ -75,9 +75,9 @@ namespace Services.Repositories.Implimentations
 
         public async Task<int> Update(int TN, CustomerViewModel model)
         {
-            var tmp = new KhachHangLogViewModel();
+            var tmp = new KhachHangLogViewModels();
             var ur = await db.Customers.AsNoTracking().FirstOrDefaultAsync(x => x.Id == model.Id);
-           /* if (ur.Id == model.Id)
+            if (ur.Id == model.Id)
             {
                 tmp.CreatedBy = model.ModifiedBy;
                 if (ur.CustomerName != model.CustomerName)
@@ -126,24 +126,6 @@ namespace Services.Repositories.Implimentations
                         tmp.DienGiai = "Ngày sinh";
                         tmp.DuLieuCu = Convert.ToString(ur.DoB);
                         tmp.DuLieuMoi = Convert.ToString(ur.DoB);
-                        tmp.CustomerId = model.Id;
-                        tmp.CreatedDate = DateTime.Now;
-                        await GetLichSuKH(tmp);
-                    }
-                }
-                if (ur.Job != model.Job)
-                {
-                    if (model.Job.ToString() == "" && ur.Job.ToString() == null)
-                    {
-
-                    }
-                    else
-                    {
-
-                        tmp.TenTruongThayDoi = "Job";
-                        tmp.DienGiai = "Công việc hiện tại";
-                        tmp.DuLieuCu = Convert.ToString(ur.Job);
-                        tmp.DuLieuMoi = Convert.ToString(model.Job);
                         tmp.CustomerId = model.Id;
                         tmp.CreatedDate = DateTime.Now;
                         await GetLichSuKH(tmp);
@@ -268,7 +250,28 @@ namespace Services.Repositories.Implimentations
                         await GetLichSuKH(tmp);
                     }
                 }
-            }*/
+                if (ur.JobId != model.JobId)
+                {
+                    if (model.JobId == "" && ur.JobId == null)
+                    {
+
+                    }
+                    else
+                    {
+                        var tg = new Job();
+                        var  tg1 = new Job();
+                        tg = await db.Jobs.FindAsync(model.JobId);
+                        tg1 = await db.Jobs.FindAsync(ur.JobId);
+                        tmp.TenTruongThayDoi = "JobName";
+                        tmp.DienGiai = "Công việc hiện tại";
+                        tmp.DuLieuCu = tg.PlaceWork;
+                        tmp.DuLieuMoi = model.PlaceWork;
+                        tmp.CustomerId = model.Id;
+                        tmp.CreatedDate = DateTime.Now;
+                        await GetLichSuKH(tmp);
+                    }
+                }
+            }
             try
             {
                 if (TN == 1)
@@ -317,7 +320,7 @@ namespace Services.Repositories.Implimentations
             }
 
         }
-          public async Task<int> GetLichSuKH(KhachHangLogViewModel model)
+          public async Task<int> GetLichSuKH(KhachHangLogViewModels model)
           {
               model.Id = Guid.NewGuid().ToString();
               model.TenTruongThayDoi = model.TenTruongThayDoi;
@@ -332,12 +335,12 @@ namespace Services.Repositories.Implimentations
               // thanh cong 1, o loi
               return rs;
           }
-          public async Task<List<KhachHangLogViewModel>> GetAllLiSuKH()
+          public async Task<List<KhachHangLogViewModels>> GetAllLiSuKH()
           {
               var query = from dt in db.KhachHangLogs
                           join kh in db.Customers on dt.CustomerId equals kh.Id
                           orderby dt.CreatedDate descending
-                          select new KhachHangLogViewModel
+                          select new KhachHangLogViewModels
                           {
                               Id = dt.Id,
                               CustomerCode = kh.CustomerCode,

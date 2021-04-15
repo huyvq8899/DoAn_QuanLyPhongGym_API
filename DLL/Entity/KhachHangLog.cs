@@ -13,7 +13,5 @@ namespace DLL.Entity
         public string DuLieuMoi { get; set; }
         public string CustomerId { get; set; }
         public Customer Customer { get; set; }
-       
-
     }
 }
